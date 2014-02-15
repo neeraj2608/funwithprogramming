@@ -24,6 +24,22 @@ public class SinglyLinkedList{
     head = head.getNext();
     return o;
   }
+
+  public void reverse(){
+    if(isEmpty() || head.getNext()==null)
+      return;
+    
+    Node previous = null;
+    
+    while(head!=null){
+      Node temp = head.getNext();
+      head.setNext(previous);
+      previous = head;
+      head = temp;
+    }
+    
+    head = previous;
+  }
   
   public boolean isEmpty(){
     return (head == null);

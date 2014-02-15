@@ -38,5 +38,16 @@ public class TestSinglyLinkedList{
   public void testRemoveThrowsException(){
     sll.remove();
   }
+  
+  @Test
+  public void testReverse(){
+    sll.addInFront(new String("a"));
+    sll.addInFront(new String("b"));
+    sll.addInFront(new String("c"));
+    sll.reverse();
+    assertEquals("a",sll.remove());
+    assertEquals("b",sll.remove());
+    assertEquals("c",sll.remove());
+  }
 
 }
