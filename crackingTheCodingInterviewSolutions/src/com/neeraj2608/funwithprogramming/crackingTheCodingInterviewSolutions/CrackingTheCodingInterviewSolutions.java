@@ -7,9 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Stack;
 
-import com.neeraj2608.funwithprogramming.linkedlist.Data;
-import com.neeraj2608.funwithprogramming.linkedlist.SinglyLinkedList;
-import com.neeraj2608.funwithprogramming.linkedlist.Node;
+import com.neeraj2608.funwithprogramming.crackingTheCodingInterviewSolutions.chapter2.CrackingTheCodingInterviewSolutionsChapter2.LL;
 import com.neeraj2608.funwithprogramming.minheap.MinHeap;
 
 class Queue { //CTCI 3.5 52
@@ -77,7 +75,6 @@ class SetOfStacks{ //CTCI 3.3 52
     return s.pop();
   }
 }
-
 
 class MinStacksOnLL extends StacksOnLL{ //CTCI 3.2 52
   private LL llMin;
@@ -214,125 +211,6 @@ class StacksOnArray{ //CTCI 3.1 52
   }
 }
 
-class LL extends SinglyLinkedList{
-
-  public void reverse(){
-    if(isEmpty() || head.getNext()==null)
-      return;
-    
-    Node previous = null;
-    
-    while(head!=null){
-      Node temp = head.getNext();
-      head.setNext(previous);
-      previous = head;
-      head = temp;
-    }
-    
-    head = previous;
-  }
-  
-  public void remDupsNoBuffer(){ //O(n^2) CTCI 2.1 50
-    Node start = head;
-    
-    while(start != null){
-      Node current = start.getNext();
-      Node previous = start;
-      while(current != null){
-        if(start.getData() == current.getData())
-          previous.setNext(current.getNext());
-        previous = current;
-        current = current.getNext();
-      }
-      start = start.getNext();
-    }
-  }
-  
-  public Object nthToLastElement(int n){ //CTCI 2.2 50
-    if(isEmpty())
-      throw new RuntimeException("list is empty!");
-    if(n < 0)
-      throw new RuntimeException("n cannot be less than 0");
-    
-    Node start = head;
-    Node o = head;
-    int count = -1;
-    
-    while(start!=null){
-      start = start.getNext();
-      if(count < n)
-        count ++;
-      else
-        o = o.getNext();
-    }
-    
-    if(count < n)
-      throw new RuntimeException("list wasn't long enough");
-    else
-      return o.getData();
-  }
-  
-  public void deleteFromMiddle(Data d){ //CTCI 2.3 50
-    if(isEmpty())
-      return;
-    
-    if(head.getData()==d){
-      head = head.getNext();
-      return;
-    }
-    
-    Node start = head.getNext();
-    Node previous = head;
-    
-    while(start!=null){
-      if(start.getData()==d){
-        previous.setNext(start.getNext());
-        return;
-      }
-      previous = start;
-      start = start.getNext();
-    }
-  }
-  
-  public Object startOfLoop(){ //CTCI 2.5 50
-    Node slow = head;
-    Node fast = head;
-    
-    while(true){
-      slow = slow.getNext();
-      fast = fast.getNext().getNext();
-      
-      if(null == fast)
-        throw new RuntimeException("no loop in this list!");
-      
-      if(slow==fast)
-        break;
-    }
-    
-    slow = head;
-    while(slow!=fast){
-      slow = slow.getNext();
-      fast = fast.getNext();
-    }
-    
-    return slow.getData();
-  }
-  
-  public void corruptThisList(int n){ //used to test CTCI 2.5 50. will create loopback from tail to (n-1)th element
-    Node current = head;
-    Node loopBackTo = head;
-    int count = 0;
-    while(current.getNext()!=null){
-      if(count == n)
-        loopBackTo = current;
-      current = current.getNext();
-      count++;
-    }
-    
-    current.setNext(loopBackTo);
-  }
-   
-}
 
 class CrackingTheCodingInterviewSolutions
 {
@@ -587,34 +465,6 @@ class CrackingTheCodingInterviewSolutions
     
     while(!s1.isEmpty())
       s.push(s1.pop());
-  }
-  
-  private static LL add2NumLLs(LL first, LL second){ // CTCI 2.4 50
-    LL result = new LL();
-    int carry = 0;
-    
-    while(!first.isEmpty() || !second.isEmpty()){
-      int s = 0;
-      if(!first.isEmpty())
-        s += ((Data)first.remove()).getId();
-      if(!second.isEmpty())
-        s +=((Data)second.remove()).getId();
-      s+=carry;
-      Data d = new Data();
-      d.setId(s%10);
-      result.addInFront(d);
-      carry = s/10;
-    }
-    
-    if(carry>0){
-      Data d = new Data();
-      d.setId(carry);
-      result.addInFront(d);
-    }
-    
-    result.reverse();
-    
-    return result;
   }
   
   private static int setString(int N, int M, int i, int j){ //CTCI 5.1 58
@@ -1503,91 +1353,6 @@ class CrackingTheCodingInterviewSolutions
 
   public static void main (String[] args) throws java.lang.Exception
   {
-    /********** LINKED LISTS **********/
-    LL ll = new LL();
-    Data d0 = new Data();
-    d0.setId(0);
-    ll.addInFront(d0);
-    Data d1 = new Data();
-    d1.setId(1);
-    ll.addInFront(d1);
-    Data d2 = new Data();
-    d2.setId(2);
-    ll.addInFront(d2);
-    Data testData = new Data();
-    testData.setId(9);
-    ll.addInFront(testData);
-    ll.addInFront(d0);
-    ll.addInFront(d1);
-    ll.addInFront(d2);
-    
-    ll.deleteFromMiddle(testData);
-    
-    System.out.println("2nd last element is "+((Data)ll.nthToLastElement(2)).getId());
-    
-    ll.remDupsNoBuffer();
-    
-    ll.reverse();
-    
-    while(!ll.isEmpty()){
-      Data d = (Data) ll.remove();
-      System.out.println(d.getId());
-    }
-    
-    LL first = new LL();
-    LL second = new LL();
-    
-    Data firstD1 = new Data();
-    firstD1.setId(9);
-    first.addInFront(firstD1);
-    Data firstD2 = new Data();
-    firstD2.setId(9);
-    first.addInFront(firstD2);
-    Data firstD3 = new Data();
-    firstD3.setId(9);
-    first.addInFront(firstD3);
-    
-    Data secondD1 = new Data();
-    secondD1.setId(9);
-    second.addInFront(secondD1);
-    Data secondD2 = new Data();
-    secondD2.setId(9);
-    second.addInFront(secondD2);
-    Data secondD3 = new Data();
-    secondD3.setId(9);
-    second.addInFront(secondD3);
-    
-    LL result = add2NumLLs(first, second);
-    while(!result.isEmpty()){
-      Data d = (Data) result.remove();
-      System.out.println(d.getId());
-    }
-    
-    LL ll2 = new LL();
-    Data d = new Data();
-    d.setId(6);
-    ll2.addInFront(d);
-    d = new Data();
-    d.setId(5);
-    ll2.addInFront(d);
-    d = new Data();
-    d.setId(4);
-    ll2.addInFront(d);
-    d = new Data();
-    d.setId(3);
-    ll2.addInFront(d);
-    d = new Data();
-    d.setId(2);
-    ll2.addInFront(d);
-    d = new Data();
-    d.setId(1);
-    ll2.addInFront(d);
-    d = new Data();
-    d.setId(0);
-    ll2.addInFront(d);
-    ll2.corruptThisList(2);
-    
-    System.out.println("loop starts at "+((Data)ll2.startOfLoop()).getId());
     
     /********** STACKS **********/
     Object[] arr = new Object[10];
