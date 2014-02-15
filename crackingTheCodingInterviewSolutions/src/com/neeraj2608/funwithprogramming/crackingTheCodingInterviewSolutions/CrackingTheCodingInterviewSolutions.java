@@ -6,6 +6,10 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Stack;
+
+import com.neeraj2608.funwithprogramming.linkedlist.Data;
+import com.neeraj2608.funwithprogramming.linkedlist.SinglyLinkedList;
+import com.neeraj2608.funwithprogramming.linkedlist.Node;
 import com.neeraj2608.funwithprogramming.minheap.MinHeap;
 
 class Queue { //CTCI 3.5 52
@@ -210,31 +214,8 @@ class StacksOnArray{ //CTCI 3.1 52
   }
 }
 
-class LL{
-  private Node head;
-  
-  public void addInFront(Object o){ //adds to head of list
-    if(isEmpty()){
-      head = new Node();
-      head.setData(o);
-      return;
-    }
-    Node currentNode = new Node();
-    currentNode.setNext(head);
-    currentNode.setData(o);
-    head = currentNode;
-  }
-  
-  public Object remove(){ //removes from head of list
-    if(isEmpty()){
-      throw new RuntimeException("list is empty!");
-    }
-    
-    Object o = head.getData();
-    head = head.getNext();
-    return o;
-  }
-  
+class LL extends SinglyLinkedList{
+
   public void reverse(){
     if(isEmpty() || head.getNext()==null)
       return;
@@ -313,10 +294,6 @@ class LL{
     }
   }
   
-  public boolean isEmpty(){
-    return (head == null);
-  }
-  
   public Object startOfLoop(){ //CTCI 2.5 50
     Node slow = head;
     Node fast = head;
@@ -354,41 +331,7 @@ class LL{
     
     current.setNext(loopBackTo);
   }
-  
-
-  private class Node{
-    private Object data;
-    private Node next;
-
-    public void setNext(Node n){
-      this.next = n;
-    }
-
-    public Node getNext(){
-      return next;
-    }
-
-    public void setData(Object d){
-      this.data = d;
-    }
-
-    public Object getData(){
-      return this.data;
-    }
-  }
-  
-}
-
-class Data{
-  private int id;
-  
-  public int getId(){
-    return this.id;
-  }
-  
-  public void setId(int i){
-    this.id = i;
-  }
+   
 }
 
 class CrackingTheCodingInterviewSolutions

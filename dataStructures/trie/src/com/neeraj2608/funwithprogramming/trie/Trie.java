@@ -12,6 +12,10 @@ class Trie{
     root = new TrieNode("");
   }
   
+  /**
+   * Inserts a string into the trie. Complexity is O(n).
+   * @param s string to insert
+   */
   public void insert(String s){
     ins(root,s,0);
   }
@@ -59,6 +63,10 @@ class Trie{
     return null;
   }
   
+  /**
+   * Removes string from trie.
+   * @param s string to remove.
+   */
   public void remove(String s){
     rem(root, s, 0);
   }
@@ -75,6 +83,10 @@ class Trie{
     }
   }
 
+  /**
+   * @author Raj
+   * Trie node.
+   */
   private class TrieNode{
     private String data; 
     private HashMap<String, TrieNode> map;
