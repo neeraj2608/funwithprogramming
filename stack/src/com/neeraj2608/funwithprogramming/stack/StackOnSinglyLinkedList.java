@@ -2,11 +2,11 @@ package com.neeraj2608.funwithprogramming.stack;
 
 import com.neeraj2608.funwithprogramming.linkedlist.SinglyLinkedList;
 
-public class StackOnLinkedList{
+public class StackOnSinglyLinkedList{
   private SinglyLinkedList sll;
   protected int size, maxSize;
   
-  public StackOnLinkedList(int maxSize){
+  public StackOnSinglyLinkedList(int maxSize){
     this.maxSize = maxSize;
     this.size = 0;
     sll = new SinglyLinkedList();

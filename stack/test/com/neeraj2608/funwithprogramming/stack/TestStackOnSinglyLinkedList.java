@@ -7,13 +7,13 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TestStackOnLinkedList{
-  StackOnLinkedList sll;
+public class TestStackOnSinglyLinkedList{
+  StackOnSinglyLinkedList sll;
   int stackSize = 5;
   
   @Before
   public void setup(){
-    sll = new StackOnLinkedList(stackSize);
+    sll = new StackOnSinglyLinkedList(stackSize);
   }
   
   @Test
