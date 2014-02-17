@@ -99,14 +99,13 @@ class Trie{
     public String getData(){
       return data;
     }
+    
     public void setData(String data){
       this.data = data;
     }
+    
     public HashMap<String, TrieNode> getMap(){
       return map;
-    }
-    public void setMap(HashMap<String, TrieNode> map){
-      this.map = map;
     }
   }
 }

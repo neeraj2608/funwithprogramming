@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Stack;
 
 import com.neeraj2608.funwithprogramming.linkedlist.SinglyLinkedList;
-import com.neeraj2608.funwithprogramming.stack.StackOnLinkedList;
+import com.neeraj2608.funwithprogramming.stack.StackOnSinglyLinkedList;
 
 /**
  * @author Raj
@@ -72,7 +72,7 @@ public class CrackingTheCodingInterviewSolutionsChapter3{
    * O(1) time.
    * @author Raj
    */
-  private static class MinStacksOnLL extends StackOnLinkedList{ //CTCI 3.2 52
+  private static class MinStacksOnLL extends StackOnSinglyLinkedList{ //CTCI 3.2 52
     private SinglyLinkedList llMin;
     
     public MinStacksOnLL(int maxSize){
@@ -130,13 +130,13 @@ public class CrackingTheCodingInterviewSolutionsChapter3{
    */
   private static class SetOfStacks{
     private int capacity;
-    private List<StackOnLinkedList> listOfStacks;
-    private StackOnLinkedList stacksOnLL;
+    private List<StackOnSinglyLinkedList> listOfStacks;
+    private StackOnSinglyLinkedList stacksOnLL;
     
     public SetOfStacks(int capacity){
       this.capacity = capacity;
-      listOfStacks = new ArrayList<StackOnLinkedList>();
-      stacksOnLL = new StackOnLinkedList(capacity);
+      listOfStacks = new ArrayList<StackOnSinglyLinkedList>();
+      stacksOnLL = new StackOnSinglyLinkedList(capacity);
       listOfStacks.add(stacksOnLL);
     }
     
@@ -144,7 +144,7 @@ public class CrackingTheCodingInterviewSolutionsChapter3{
       if(!stacksOnLL.isFull())
         stacksOnLL.push(o);
       else{
-        stacksOnLL = new StackOnLinkedList(capacity);
+        stacksOnLL = new StackOnSinglyLinkedList(capacity);
         listOfStacks.add(stacksOnLL);
         stacksOnLL.push(o);
       }
@@ -165,7 +165,7 @@ public class CrackingTheCodingInterviewSolutionsChapter3{
     public Object popAt(int index){
       if(index > listOfStacks.size()-1)
         throw new RuntimeException("index too large!");
-      StackOnLinkedList s = listOfStacks.get(index);
+      StackOnSinglyLinkedList s = listOfStacks.get(index);
       return s.pop();
     }
   }
@@ -264,7 +264,7 @@ public class CrackingTheCodingInterviewSolutionsChapter3{
     MultipleStacksOnSameArray s1 = new MultipleStacksOnSameArray(arr, 3, 2);
     MultipleStacksOnSameArray s2 = new MultipleStacksOnSameArray(arr, 3, 5);
     MultipleStacksOnSameArray s3 = new MultipleStacksOnSameArray(arr, 4, 9);
-    StackOnLinkedList s4 = new StackOnLinkedList(3);
+    StackOnSinglyLinkedList s4 = new StackOnSinglyLinkedList(3);
     MinStacksOnLL s5 = new MinStacksOnLL(10);
     
     for(int i=0;i<3;i++){
