@@ -20,15 +20,15 @@ public class TestSinglyLinkedList{
   @Test
   public void testisEmpty(){
     assertTrue(sll.isEmpty());
-    sll.addInFront(new Integer(1));
+    sll.insert(new Integer(1));
     assertFalse(sll.isEmpty());
   }
   
   @Test
   public void testRemove(){
-    sll.addInFront(new String("a"));
-    sll.addInFront(new String("b"));
-    sll.addInFront(new String("c"));
+    sll.insert(new String("a"));
+    sll.insert(new String("b"));
+    sll.insert(new String("c"));
     assertEquals("c",sll.remove());
     assertEquals("b",sll.remove());
     assertEquals("a",sll.remove());
@@ -41,9 +41,9 @@ public class TestSinglyLinkedList{
   
   @Test
   public void testReverse(){
-    sll.addInFront(new String("a"));
-    sll.addInFront(new String("b"));
-    sll.addInFront(new String("c"));
+    sll.insert(new String("a"));
+    sll.insert(new String("b"));
+    sll.insert(new String("c"));
     sll.reverse();
     assertEquals("a",sll.remove());
     assertEquals("b",sll.remove());

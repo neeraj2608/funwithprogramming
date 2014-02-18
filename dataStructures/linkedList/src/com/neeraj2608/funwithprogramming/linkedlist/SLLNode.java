@@ -1,14 +1,14 @@
 package com.neeraj2608.funwithprogramming.linkedlist;
 
-public class Node{
+public class SLLNode{
   private Object data;
-  private Node next;
+  private SLLNode next;
 
-  public void setNext(Node n){
+  public void setNext(SLLNode n){
     this.next = n;
   }
 
-  public Node getNext(){
+  public SLLNode getNext(){
     return next;
   }
 

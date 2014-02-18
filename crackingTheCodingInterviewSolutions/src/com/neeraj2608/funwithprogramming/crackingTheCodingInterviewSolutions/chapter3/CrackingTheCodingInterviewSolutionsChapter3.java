@@ -87,12 +87,12 @@ public class CrackingTheCodingInterviewSolutionsChapter3{
       Integer oInt = (Integer) o;
       super.push(oInt);
       if(llMin.isEmpty())
-        llMin.addInFront(oInt);
+        llMin.insert(oInt);
       else{
         Integer cmp = (Integer)llMin.remove();
-        llMin.addInFront(cmp);
+        llMin.insert(cmp);
         if(cmp > oInt)
-          llMin.addInFront(o);
+          llMin.insert(o);
       }
     }
     
@@ -101,7 +101,7 @@ public class CrackingTheCodingInterviewSolutionsChapter3{
       Integer o = (Integer) super.pop();
       Integer cmp = (Integer) llMin.remove();
       if(cmp != o)
-        llMin.addInFront(cmp);
+        llMin.insert(cmp);
       return o;
     }
     
@@ -109,7 +109,7 @@ public class CrackingTheCodingInterviewSolutionsChapter3{
       if(size == 0)
         return Integer.MAX_VALUE;
       Object min = llMin.remove();
-      llMin.addInFront(min);
+      llMin.insert(min);
       return min;
     }
   }

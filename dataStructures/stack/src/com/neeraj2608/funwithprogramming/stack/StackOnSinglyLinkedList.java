@@ -17,7 +17,7 @@ public class StackOnSinglyLinkedList{
       throw new RuntimeException("Stack is full!");
     
     size++;
-    sll.addInFront(o);
+    sll.insert(o);
   }
   
   public Object pop(){
@@ -33,7 +33,7 @@ public class StackOnSinglyLinkedList{
       throw new RuntimeException("Stack is empty!");
     
     Object o = sll.remove();
-    sll.addInFront(o);
+    sll.insert(o);
     return o;
   }
   

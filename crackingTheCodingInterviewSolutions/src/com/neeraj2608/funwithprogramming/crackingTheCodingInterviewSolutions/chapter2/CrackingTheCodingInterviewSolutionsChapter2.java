@@ -1,7 +1,7 @@
 package com.neeraj2608.funwithprogramming.crackingTheCodingInterviewSolutions.chapter2;
 
 import com.neeraj2608.funwithprogramming.linkedlist.Data;
-import com.neeraj2608.funwithprogramming.linkedlist.Node;
+import com.neeraj2608.funwithprogramming.linkedlist.SLLNode;
 import com.neeraj2608.funwithprogramming.linkedlist.SinglyLinkedList;
 
 /**
@@ -17,11 +17,11 @@ public class CrackingTheCodingInterviewSolutionsChapter2{
      * How would you solve this problem if a temporary buffer is not allowed?
      */
     public void remDupsNoTemporaryBuffer(){ //O(n^2)
-      Node start = head;
+      SLLNode start = head;
       
       while(start != null){
-        Node current = start.getNext();
-        Node previous = start;
+        SLLNode current = start.getNext();
+        SLLNode previous = start;
         while(current != null){
           if(start.getData() == current.getData())
             previous.setNext(current.getNext());
@@ -44,8 +44,8 @@ public class CrackingTheCodingInterviewSolutionsChapter2{
       if(n < 0)
         throw new RuntimeException("n cannot be less than 0");
       
-      Node start = head;
-      Node o = head;
+      SLLNode start = head;
+      SLLNode o = head;
       int count = -1;
       
       while(start!=null){
@@ -80,8 +80,8 @@ public class CrackingTheCodingInterviewSolutionsChapter2{
         return;
       }
       
-      Node start = head.getNext();
-      Node previous = head;
+      SLLNode start = head.getNext();
+      SLLNode previous = head;
       
       while(start!=null){
         if(start.getData()==d){
@@ -105,8 +105,8 @@ public class CrackingTheCodingInterviewSolutionsChapter2{
      * @return node at start of loop
      */
     public Object startOfLoop(){
-      Node slow = head;
-      Node fast = head;
+      SLLNode slow = head;
+      SLLNode fast = head;
       
       while(true){
         slow = slow.getNext();
@@ -129,8 +129,8 @@ public class CrackingTheCodingInterviewSolutionsChapter2{
     }
     
     public void corruptThisList(int n){ //used to test CTCI 2.5 50. will create loopback from tail to (n-1)th element
-      Node current = head;
-      Node loopBackTo = head;
+      SLLNode current = head;
+      SLLNode loopBackTo = head;
       int count = 0;
       while(current.getNext()!=null){
         if(count == n)
@@ -168,14 +168,14 @@ public class CrackingTheCodingInterviewSolutionsChapter2{
       s+=carry;
       Data d = new Data();
       d.setId(s%10);
-      result.addInFront(d);
+      result.insert(d);
       carry = s/10;
     }
     
     if(carry>0){
       Data d = new Data();
       d.setId(carry);
-      result.addInFront(d);
+      result.insert(d);
     }
     
     result.reverse();
@@ -187,19 +187,19 @@ public class CrackingTheCodingInterviewSolutionsChapter2{
     LL ll = new LL();
     Data d0 = new Data();
     d0.setId(0);
-    ll.addInFront(d0);
+    ll.insert(d0);
     Data d1 = new Data();
     d1.setId(1);
-    ll.addInFront(d1);
+    ll.insert(d1);
     Data d2 = new Data();
     d2.setId(2);
-    ll.addInFront(d2);
+    ll.insert(d2);
     Data testData = new Data();
     testData.setId(9);
-    ll.addInFront(testData);
-    ll.addInFront(d0);
-    ll.addInFront(d1);
-    ll.addInFront(d2);
+    ll.insert(testData);
+    ll.insert(d0);
+    ll.insert(d1);
+    ll.insert(d2);
     
     ll.deleteFromMiddle(testData);
     
@@ -219,23 +219,23 @@ public class CrackingTheCodingInterviewSolutionsChapter2{
     
     Data firstD1 = new Data();
     firstD1.setId(9);
-    first.addInFront(firstD1);
+    first.insert(firstD1);
     Data firstD2 = new Data();
     firstD2.setId(9);
-    first.addInFront(firstD2);
+    first.insert(firstD2);
     Data firstD3 = new Data();
     firstD3.setId(9);
-    first.addInFront(firstD3);
+    first.insert(firstD3);
     
     Data secondD1 = new Data();
     secondD1.setId(9);
-    second.addInFront(secondD1);
+    second.insert(secondD1);
     Data secondD2 = new Data();
     secondD2.setId(9);
-    second.addInFront(secondD2);
+    second.insert(secondD2);
     Data secondD3 = new Data();
     secondD3.setId(9);
-    second.addInFront(secondD3);
+    second.insert(secondD3);
     
     LL result = add2NumLLs(first, second);
     while(!result.isEmpty()){
@@ -246,25 +246,25 @@ public class CrackingTheCodingInterviewSolutionsChapter2{
     LL ll2 = new LL();
     Data d = new Data();
     d.setId(6);
-    ll2.addInFront(d);
+    ll2.insert(d);
     d = new Data();
     d.setId(5);
-    ll2.addInFront(d);
+    ll2.insert(d);
     d = new Data();
     d.setId(4);
-    ll2.addInFront(d);
+    ll2.insert(d);
     d = new Data();
     d.setId(3);
-    ll2.addInFront(d);
+    ll2.insert(d);
     d = new Data();
     d.setId(2);
-    ll2.addInFront(d);
+    ll2.insert(d);
     d = new Data();
     d.setId(1);
-    ll2.addInFront(d);
+    ll2.insert(d);
     d = new Data();
     d.setId(0);
-    ll2.addInFront(d);
+    ll2.insert(d);
     ll2.corruptThisList(2);
     
     System.out.println("loop starts at "+((Data)ll2.startOfLoop()).getId());
