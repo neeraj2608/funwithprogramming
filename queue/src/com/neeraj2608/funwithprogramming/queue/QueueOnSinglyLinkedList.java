@@ -10,10 +10,12 @@ public class QueueOnSinglyLinkedList{
     }
     
     public void enQueue(Object o){
-      sll.addInFront(o);
+      sll.insert(o);
     }
     
     public Object deQueue(){
+      if(isEmpty())
+        throw new RuntimeException("queue is empty!");
       sll.reverse();
       Object o = sll.remove();
       sll.reverse();

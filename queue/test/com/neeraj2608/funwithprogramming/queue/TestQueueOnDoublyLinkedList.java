@@ -7,12 +7,12 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TestQueueOnSinglyLinkedList{
-  QueueOnSinglyLinkedList q;
+public class TestQueueOnDoublyLinkedList{
+  QueueOnDoublyLinkedList q;
 
   @Before
   public void setUp() throws Exception{
-    q = new QueueOnSinglyLinkedList();
+    q = new QueueOnDoublyLinkedList();
   }
 
   @Test

@@ -1,15 +1,15 @@
 package com.neeraj2608.funwithprogramming.linkedlist;
 
 public class SinglyLinkedList{
-  protected Node head;
+  protected SLLNode head;
   
-  public void addInFront(Object o){ //adds to head of list
+  public void insert(Object o){ //adds to head of list
     if(isEmpty()){
-      head = new Node();
+      head = new SLLNode();
       head.setData(o);
       return;
     }
-    Node currentNode = new Node();
+    SLLNode currentNode = new SLLNode();
     currentNode.setNext(head);
     currentNode.setData(o);
     head = currentNode;
@@ -29,10 +29,10 @@ public class SinglyLinkedList{
     if(isEmpty() || head.getNext()==null)
       return;
     
-    Node previous = null;
+    SLLNode previous = null;
     
     while(head!=null){
-      Node temp = head.getNext();
+      SLLNode temp = head.getNext();
       head.setNext(previous);
       previous = head;
       head = temp;
