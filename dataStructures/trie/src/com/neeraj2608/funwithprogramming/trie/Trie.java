@@ -13,7 +13,7 @@ class Trie{
   }
   
   /**
-   * Inserts a string into the trie. Complexity is O(n).
+   * Inserts a string into the trie. Complexity is O(string length).
    * @param s string to insert
    */
   public void insert(String s){
