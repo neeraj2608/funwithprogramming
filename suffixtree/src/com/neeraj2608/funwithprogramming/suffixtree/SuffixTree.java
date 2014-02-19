@@ -15,6 +15,10 @@ public class SuffixTree{
    * @param s string to insert
    */
   public void insert(String s){
+    ins(s+"$"); //add termination character not in alphabet
+  }
+  
+  private void ins(String s){
     if(s.length()==0)
       return;
     
@@ -40,6 +44,8 @@ public class SuffixTree{
       n1.setParent(root);
       root.getMap().put(s.substring(0,1), n1);
     }
+    
+    ins(s.substring(1)); //insert the next suffix
   }
   
   private void ins(SuffixTreeNode node, String s){
