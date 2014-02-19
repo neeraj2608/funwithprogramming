@@ -10,7 +10,7 @@ import java.util.List;
  * suffix and LCP arrays.
  * @author Raj
  */
-public class StringPalindromesWithSuffixArrays{
+public class PalindromesWithSuffixArrays{
   /**
    * Returns all non-trivial (length 1) palindromes of the input string.
    * @param s input string

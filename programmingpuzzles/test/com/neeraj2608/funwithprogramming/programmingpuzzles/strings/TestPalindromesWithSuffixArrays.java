@@ -5,12 +5,12 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TestStringPalindromesWithSuffixArrays{
-  StringPalindromesWithSuffixArrays s;
+public class TestPalindromesWithSuffixArrays{
+  PalindromesWithSuffixArrays s;
   
   @Before
   public void setup(){
-    s = new StringPalindromesWithSuffixArrays();
+    s = new PalindromesWithSuffixArrays();
   }
   
   @Test
