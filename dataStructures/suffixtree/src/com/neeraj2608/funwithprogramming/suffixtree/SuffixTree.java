@@ -10,7 +10,7 @@ public class SuffixTree{
   }
   
   /**
-   * Inserts a new string into the suffix tree. Uses a naive O(string_length^2)
+   * Inserts a new string into the suffix tree. Uses a naive O(string_length<SUP>2</SUP>)
    * algorithm.
    * @param s string to insert
    */

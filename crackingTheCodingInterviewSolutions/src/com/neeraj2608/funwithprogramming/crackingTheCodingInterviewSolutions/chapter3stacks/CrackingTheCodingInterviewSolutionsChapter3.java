@@ -1,4 +1,4 @@
-package com.neeraj2608.funwithprogramming.crackingTheCodingInterviewSolutions.chapter3;
+package com.neeraj2608.funwithprogramming.crackingTheCodingInterviewSolutions.chapter3stacks;
 
 import java.util.ArrayList;
 import java.util.List;

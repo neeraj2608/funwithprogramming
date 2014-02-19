@@ -1,4 +1,4 @@
-package com.neeraj2608.funwithprogramming.crackingTheCodingInterviewSolutions.chapter1;
+package com.neeraj2608.funwithprogramming.crackingTheCodingInterviewSolutions.chapter1stringsarrays;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -107,10 +107,12 @@ public class CrackingTheCodingInterviewSolutionsChapter1{
    * QUESTION: CTCI 1.2 (page 48)
    * Write code to reverse a C-Style String (C-String means that “abcd” is represented as 
    * five characters, including the null character )
+   * 
+   * This one is same as recReverse, except it does it in place.
    * @param s input string
    * @return reversed string
    */
-  private static String reverseString2(String s){ //CTCI 1.2 48
+  private static String reverseString2(String s){
     char[] c = s.toCharArray();
     recReverse2(c, 0, s.length()-1);
     return new String(c);
@@ -123,6 +125,17 @@ public class CrackingTheCodingInterviewSolutionsChapter1{
     c[start] = c[end];
     c[end] = tmp;
     recReverse(c, ++start, --end);
+  }
+  
+  /**
+   * Recursive method to reverse a string. 
+   * @param s input string
+   * @return reversed string
+   */
+  private static String reverseString3(String s){
+    if(s.length()==1)
+      return s.substring(0,1);
+    return s.substring(s.length()-1) + reverseString3(s.substring(0,s.length()-1));
   }
   
   /**
@@ -317,7 +330,7 @@ public class CrackingTheCodingInterviewSolutionsChapter1{
   
   public static void main(String[] args){
     String s7 = "aa0bcc0d";
-    System.out.println(reverseString2(reverseString(s7)));
+    System.out.println(reverseString3(reverseString2(reverseString(s7))));
     System.out.println("dups found: "+findDups(s7));
     System.out.println("dups found: "+findDups2(s7));
     System.out.println("dups found: "+findDups3(s7));

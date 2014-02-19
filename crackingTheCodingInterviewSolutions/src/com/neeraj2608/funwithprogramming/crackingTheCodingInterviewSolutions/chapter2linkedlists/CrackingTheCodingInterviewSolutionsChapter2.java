@@ -1,4 +1,4 @@
-package com.neeraj2608.funwithprogramming.crackingTheCodingInterviewSolutions.chapter2;
+package com.neeraj2608.funwithprogramming.crackingTheCodingInterviewSolutions.chapter2linkedlists;
 
 import com.neeraj2608.funwithprogramming.linkedlist.Data;
 import com.neeraj2608.funwithprogramming.linkedlist.SLLNode;
