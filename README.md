@@ -25,6 +25,7 @@ Data structures, algorithms and programming puzzles for fun.
   - Chapter 1: Strings and Arrays
   - Chapter 2: Linked Lists
   - Chapter 3: Stacks
+  - Chapter 5: Bit manipulation
   - Chapter 9: Sorting and Searching
 
 ##### Programming Puzzles
