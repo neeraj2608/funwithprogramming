@@ -14,5 +14,6 @@ public class TestSuffixTree{
   @Test
   public void testInsert(){
     st.insert("abac");
+    //TODO: This test is not really a test coz it don't check nuthin'
   }
 }

@@ -9,19 +9,6 @@ import com.neeraj2608.funwithprogramming.minheap.MinHeap;
 
 class CrackingTheCodingInterviewSolutions
 {
-  private static int setString(int N, int M, int i, int j){ //CTCI 5.1 58
-    int mask = 0;
-    for(int k=0;k<=j-i;k++)
-      mask = 1 << 1 | 1;
-    mask = mask << i;
-    
-    M = M | ~mask;
-    N = N&M;
-    M = M & mask;
-    N = N|M;
-    return N;
-  }
-  
   private static void swapNoBuf(int a, int b){ //CTCI 19.2 89
     System.out.println("a = "+a+", b = "+b);
     a = a ^ b;
@@ -36,94 +23,6 @@ class CrackingTheCodingInterviewSolutions
     b = b + a;
     a = b - a;
     System.out.println("a = "+a+", b = "+b);
-  }
-  
-  private static String convertIntToBinary(int i){
-    String s = "";
-    while(i>0){
-      s = (i%2)+ s;
-      i>>=1;
-    }
-    return s;
-  }
-  
-  private static String convertIntToBinary1(int i){
-    String s = "";
-    while(i>0){
-      s = (i&1)+ s;
-      i>>=1;
-    }
-    return s;
-  }
-  
-  private static String convertIntStringToBinary(String s){
-    String wholePart = s.substring(0,s.indexOf('.'));
-    String result = convertIntToBinary(Integer.parseInt(wholePart));
-    return result;
-  }
-  
-  private static String convertFracStringToBinary(String input){
-    Double d = Double.parseDouble(input);
-    String s = "";
-    while(d>0){
-      d *= 2;
-      if(d>=1){
-        s = "1" + s;
-        d -= 1;
-      }
-      else {
-        s = "0" + s;
-      }
-    }
-    return s;
-  }
-  
-  private static String convertDecStringToBinary(String s){ //CTCI 5.2 58
-    String wholePart = s.substring(0,s.indexOf('.'));
-    String decPart = s.substring(s.indexOf('.'));
-    String result = convertIntToBinary(Integer.parseInt(wholePart))+"."+convertFracStringToBinary(decPart);
-    if(result.length()>32)
-      throw new RuntimeException("ERROR");
-    return result;
-  }
-  
-  private static int numOfBitsToConvertOneIntToAnother(int a, int b){ //CTCI 5.5 58
-    int c = a ^ b;
-    int count = 0;
-    while(c > 0){
-      count += (c & 1);
-      c >>= 1;
-    }
-    return count;
-  }
-  
-  private static int nextLargest(int a){ //CTCI 5.3 58
-    int count = 0, countOnes = 0;
-    int b = a;
-    while((a&3)!=1 && a>0){
-      if((a&1)==1) countOnes++;
-      a>>=1;
-      count++;
-    }
-    b >>= (count+2);
-    b <<= 2;
-    b |= 2;
-    b <<= count;
-    int mask = 0;
-    while(countOnes>0){
-      mask = mask << 1 | 1;
-      countOnes--;
-    }
-    b |= mask;
-    return b;
-  }
-  
-  private static int nextSmallest(int a){ //CTCI 5.3 58
-    return ~nextLargest(~a);
-  }
-  
-  private static int exchangeBits(int a){ //CTCI 5.6 58
-    return ((a & 0xAAAAAAAA)>>1) | ((a & 0x55555555)<<1);
   }
   
   private static int nthRecFibStartsWith0(int n){ //fib(1) = 0, fib(2) = 1
@@ -602,25 +501,11 @@ class CrackingTheCodingInterviewSolutions
 
   public static void main (String[] args) throws java.lang.Exception
   {
-
     int N = 40; //101000
     int M = 6;  //000110
-    System.out.println(Integer.toBinaryString(setString(N, M, 1, 2)));
-    
     swapNoBuf(N, M);
     swapNoBuf2(N, M);
     
-    System.out.println(convertIntToBinary(10));
-    System.out.println(convertIntToBinary1(10));
-    System.out.println(convertIntStringToBinary("10.1"));
-    System.out.println(convertDecStringToBinary("10.5"));
-    System.out.println(numOfBitsToConvertOneIntToAnother(31, 14));
-    
-    int b1 = 22;
-    System.out.println(Integer.toBinaryString(b1)+" "+Integer.toBinaryString(nextLargest(b1)));
-    System.out.println(Integer.toBinaryString(b1)+" "+Integer.toBinaryString(nextSmallest(b1)));
-    b1 = 598;
-    System.out.println(Integer.toBinaryString(b1)+" "+Integer.toBinaryString(exchangeBits(b1)));
     System.out.println(nthRecFibStartsWith0(24));
     System.out.println(nthIterFibStartsWith0(24));
     System.out.println(nthRecFibStartsWith1(0));

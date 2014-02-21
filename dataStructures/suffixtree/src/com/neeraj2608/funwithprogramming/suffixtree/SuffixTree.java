@@ -15,7 +15,7 @@ public class SuffixTree{
    * @param s string to insert
    */
   public void insert(String s){
-    ins(s+"$"); //add termination character not in alphabet
+    ins(s);
   }
   
   private void ins(String s){
