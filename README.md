@@ -33,3 +33,4 @@ Data structures, algorithms and programming puzzles for fun.
     - Finding palindromes
       - Using suffix arrays and LCP arrays
       - Using suffix trees
+      - Using Manacher's linear time algorithm
