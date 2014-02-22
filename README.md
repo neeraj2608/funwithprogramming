@@ -32,3 +32,4 @@ Data structures, algorithms and programming puzzles for fun.
   - Strings
     - Finding palindromes
       - Using suffix arrays and LCP arrays
+      - Using suffix trees
