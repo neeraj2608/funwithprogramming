@@ -2,11 +2,14 @@ package com.neeraj2608.funwithprogramming.suffixtree;
 
 import java.util.HashMap;
 
+//TODO: Modify suffix tree so that it only needs O(n) storage (store
+//      indices instead of the actual string in the nodes)
 public class SuffixTree{
   private SuffixTreeNode root;
   
   public SuffixTree(){
     root = new SuffixTreeNode("");
+    root.setDepth(0);
   }
   
   /**
@@ -33,12 +36,15 @@ public class SuffixTree{
       SuffixTreeNode n1 = new SuffixTreeNode(s.substring(0,1));
       if(s.length()==1){ //this is the only character in the string
         n1.setEnd(true);
+        n1.setDepth(root.getDepth()+1);
         root.getMap().put(s.substring(0,1), n1);
         return;
       }
       //the string has more characters. these must be added to n1's map.
       SuffixTreeNode n2 = new SuffixTreeNode(s.substring(1));
       n2.setParent(n1);
+      n1.setDepth(root.getDepth()+1);
+      n2.setDepth(n1.getDepth()+1);
       n2.setEnd(true);
       n1.getMap().put(s.substring(1), n2);
       n1.setParent(root);
@@ -90,7 +96,7 @@ public class SuffixTree{
           //n2's parent is set to n1 and it is added to n1's map.
           SuffixTreeNode n1 = splitOff(node, k, n, false);
           //the remaining part of s (which had no overlap) is added to a brand new leaf node, which is then
-          //added to n1.
+          //added to n1's map.
           addNewLeafNode(n1,s.substring(n));
           return;
         }
@@ -110,10 +116,12 @@ public class SuffixTree{
     SuffixTreeNode nodeToReplace = node.getMap().get(k);
     n2.setMap(nodeToReplace.getMap()); //we mustn't lose this information!
     n2.setEnd(nodeToReplace.isEnd()); //we mustn't lose this information!
+    n2.setDepth(nodeToReplace.getDepth()+1);
     n2.setParent(n1);
     n1.setEnd(isEnd);
     n1.getMap().put(k.substring(length), n2);
     n1.setParent(node);
+    n1.setDepth(node.getDepth()+1);
     node.getMap().remove(k);
     node.getMap().put(k.substring(0,length), n1);
     return n1;
@@ -123,12 +131,61 @@ public class SuffixTree{
     SuffixTreeNode n = new SuffixTreeNode(s);
     n.setEnd(true);
     n.setParent(node);
+    n.setDepth(node.getDepth()+1);
     node.getMap().put(s, n);
   }
   
+  public int findLCADepth(String s1, String s2){
+    SuffixTreeNode n1 = findLeafNode(s1);
+    SuffixTreeNode n2 = findLeafNode(s2);
+    SuffixTreeNode lcaNode = findLCA(n1, n2);
+    if(lcaNode == null)
+      return -1;
+    return lcaNode.getDepth();
+  }
+  
+  private SuffixTreeNode findLCA(SuffixTreeNode n1, SuffixTreeNode n2){
+    if(n1 == null || n2 == null)
+      return null;
+    
+    return recurseLCA(n1, n2);
+  }
+
+  private SuffixTreeNode recurseLCA(SuffixTreeNode n1, SuffixTreeNode n2){ //assume n1 is deeper than n2 or at equal depth
+    if(n1.getDepth()<n2.getDepth())
+      return recurseLCA(n2, n1);
+    
+    if(n1 == n2)
+      return n1;
+    
+    return recurseLCA(n1.getParent(),n2);
+  }
+
+  private SuffixTreeNode findLeafNode(String s){
+    return findLeaf(root.getMap().get(s.substring(0,1)), s.substring(1));
+  }
+  
+  private SuffixTreeNode findLeaf(SuffixTreeNode node, String s){
+    if(node == null)
+      return null;
+    
+    if(s.length()==0)
+      if(node.isEnd())
+        return node;
+      else
+        return null;
+    
+    for(SuffixTreeNode n: node.getMap().values()){
+      if(s.startsWith(n.getLabel()))
+        return findLeaf(n,s.substring(n.getLabel().length()));
+    }
+    
+    return null;
+  }
+
   private int numberOfSameChars(String s1, String s2){ //assume s1.length < s2.length
     if(s1.length() > s2.length())
-      numberOfSameChars(s2, s1);
+      return numberOfSameChars(s2, s1);
     
     int i = 0;
     while(i<s1.length() && s1.charAt(i)==s2.charAt(i)){
@@ -143,6 +200,7 @@ public class SuffixTree{
     private HashMap <String, SuffixTreeNode> map;
     private SuffixTreeNode parent; //useful for applications like palindromes
     private boolean end;
+    private int depth;
     
     public SuffixTreeNode(String s){
       label = s;
@@ -152,9 +210,7 @@ public class SuffixTree{
     public String getLabel(){
       return label;
     }
-    public void setLabel(String label){
-      this.label = label;
-    }
+
     public HashMap<String, SuffixTreeNode> getMap(){
       return map;
     }
@@ -177,6 +233,14 @@ public class SuffixTree{
 
     public void setEnd(boolean end){
       this.end = end;
+    }
+
+    public int getDepth(){
+      return depth;
+    }
+
+    public void setDepth(int depth){
+      this.depth = depth;
     }
   }
 }
