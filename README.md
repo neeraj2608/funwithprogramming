@@ -20,12 +20,14 @@ Data structures, algorithms and programming puzzles for fun.
   - trie
   - suffix tree
     - O(n<sup>2</sup>) naive construction
+    - O(n) space version
 
 ##### Cracking the Coding Interview Solutions
   - Chapter 1: Strings and Arrays
   - Chapter 2: Linked Lists
   - Chapter 3: Stacks
   - Chapter 5: Bit manipulation
+  - Chapter 8: Recursion
   - Chapter 9: Sorting and Searching
 
 ##### Programming Puzzles
