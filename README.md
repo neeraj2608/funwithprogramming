@@ -22,6 +22,13 @@ Data structures, algorithms and programming puzzles for fun.
     - O(n<sup>2</sup>) naive construction
     - O(n) space version
 
+##### Algorithms
+  - Sorting
+    - Bubble sort (normal + modified)
+    - Insertion sort
+    - Selection sort
+    - Quick sort
+
 ##### Cracking the Coding Interview Solutions
   - Chapter 1: Strings and Arrays
   - Chapter 2: Linked Lists

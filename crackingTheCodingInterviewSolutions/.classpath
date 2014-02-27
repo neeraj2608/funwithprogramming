@@ -5,5 +5,7 @@
 	<classpathentry kind="src" path="/MinHeap"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/LinkedList"/>
 	<classpathentry kind="src" path="/Stack"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/QuickSort"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/BubbleSort"/>
 	<classpathentry kind="output" path="class"/>
 </classpath>

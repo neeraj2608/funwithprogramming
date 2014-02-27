@@ -21,91 +21,6 @@ class CrackingTheCodingInterviewSolutions
     System.out.println("a = "+a+", b = "+b);
   }
   
-  private static void quicksort(int[] arr){
-    //choose pivot
-    //move pivot to end of array so it doesn't interfere with the rest of the algorithm
-    //we will assume for the moment that the pivot will rest here once this pass is done. whether this will actually be the pivot's
-    //resting place depends on what happens below. 
-    //starting from end-1 downto 0:
-    //1. compare each element with the pivot's value (remember pivot is now at the end of the array!!)
-    //2. if a given element is greater than or equal to the pivot, move it to just before the pivot. decrement the pivot's resting place
-    //   by 1 since this is now the pivot's new prospective resting place. (to see why, note that the element we just moved into this
-    //   location is greater than or equal to the pivot. this means that when we're done, we want it to lie to the RIGHT of the pivot. this
-    //   can be accomplished by swapping this resting place element with the pivot element (which is currently at the end of the array).
-    //   this means that the resting element will then end up on the pivot's right, which is what we want.
-    //at the end of the loop above, we will have the pivot's final actual resting place. swap the pivot (which is at the end of the array)
-    //with this resting place element.
-    //recurse into the two halves of the array (apart from the pivot element).
-    sort(arr,0,arr.length-1);
-  }
-  
-  private static void sort(int[] arr, int start, int end){
-    if(start>=end) return;
-    
-    int pivot = (start+end)>>1;
-    swapInt(arr,pivot,end);
-    int pivotrestingplace = end;
-    
-    for(int i=end-1;i>=0;--i){
-      if(arr[i]>=arr[end]){
-        swapInt(arr,i,--pivotrestingplace);
-      }
-    }
-    swapInt(arr,pivotrestingplace,end);
-    
-    sort(arr,start,pivotrestingplace-1);
-    sort(arr,pivotrestingplace+1,end);
-  }
-  
-  private static void bubblesort(int[] arr){
-    int n = arr.length;
-    while(n>1){
-      for(int i=1;i<n;++i){
-        if(arr[i]<arr[i-1])
-          swapInt(arr,i,i-1);
-      }
-      n--;
-    }
-  }
-  
-  private static void modifiedbubblesort(int[] arr){
-    int n = arr.length;
-    while(n>1){
-      boolean flag = false;
-      for(int i=1;i<n;++i){
-        if(arr[i]<arr[i-1]){
-          swapInt(arr,i,i-1);
-          flag = true;
-        }
-      }
-      if(!flag) break; //break early if no swaps
-      n--;
-    }
-  }
-  
-  private static void insertionsort(int[] arr){
-    for(int i=1;i<arr.length;++i){
-      for(int j=i-1;j>=0;--j){
-        if(arr[j]>arr[j+1])
-          swapInt(arr,j,j+1);
-      }
-    }
-  }
-  
-  private static void selectionsort(int[] arr){
-    for(int i=0;i<arr.length-1;++i){
-      int min = arr[i];
-      int swapWith=i;
-      for(int j=swapWith;j<arr.length;++j){
-        if(arr[j]<min){
-          min = arr[j];
-          swapWith = j;
-        }
-      }
-      swapInt(arr,i,swapWith);
-    }
-  }
-  
   private static void mergesortinplace(int[] arr){
     //in the first pass, we start with arrays of 1 and merge.
     //since we're merging in place, the merge is done by rotating the array. this needs auxiliary
@@ -208,12 +123,6 @@ class CrackingTheCodingInterviewSolutions
       times--;
     }
   }
-
-  private static void swapInt(int[] arr, int start, int end){
-      int temp = arr[start];
-      arr[start] = arr[end];
-      arr[end] = temp;
-  }
   
   private static void heapsort(int[] arr){
     MinHeap minHeap = new MinHeap(arr.length);
@@ -295,37 +204,11 @@ class CrackingTheCodingInterviewSolutions
     
     blah();
     
-    int[] arr1 = {-5,2,-6,2,7,9,0};
-    quicksort(arr1);
-    bubblesort(arr1);
-    insertionsort(arr1);
-    selectionsort(arr1);
-    
-    int[] arr3 = {1,2,3,4,5};
-    quicksort(arr3);
-    arr3 = new int[]{1,2,3,4,5};
-    bubblesort(arr3);
-    arr3 = new int[]{1,2,3,4,5};
-    modifiedbubblesort(arr3);
-    arr3 = new int[]{1,2,3,4,5};
-    insertionsort(arr3);
-    arr3 = new int[]{1,2,3,4,5};
-    selectionsort(arr3);
-    arr3 = new int[]{1,2,3,4,5};
+    int[] arr3 = new int[]{1,2,3,4,5};
     mergesortinplace(arr3);
     arr3 = new int[]{1,2,3,4,5};
     arr3 = mergesortaux(arr3);
     
-    arr3 = new int[]{5,4,3,2,1};
-    quicksort(arr3);
-    arr3 = new int[]{5,4,3,2,1};
-    bubblesort(arr3);
-    arr3 = new int[]{5,4,3,2,1};
-    modifiedbubblesort(arr3);
-    arr3 = new int[]{5,4,3,2,1};
-    insertionsort(arr3);
-    arr3 = new int[]{5,4,3,2,1};
-    selectionsort(arr3);
     arr3 = new int[]{5,4,3,2,1};
     arr3 = mergesortaux(arr3);
     arr3 = new int[]{5,4,3,2,1};
