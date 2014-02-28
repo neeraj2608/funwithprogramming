@@ -24,10 +24,16 @@ Data structures, algorithms and programming puzzles for fun.
 
 ##### Algorithms
   - Sorting
-    - Bubble sort (normal + modified)
+    - Bubble sort
+      - normal
+      - modified
     - Insertion sort
     - Selection sort
     - Quick sort
+    - Merge sort
+      - In-place version on array
+      - Auxiliary space version on array
+    - Heap sort
 
 ##### Cracking the Coding Interview Solutions
   - Chapter 1: Strings and Arrays

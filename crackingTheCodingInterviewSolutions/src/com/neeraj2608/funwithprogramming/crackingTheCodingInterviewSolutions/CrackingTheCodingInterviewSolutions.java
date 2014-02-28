@@ -1,7 +1,6 @@
 package com.neeraj2608.funwithprogramming.crackingTheCodingInterviewSolutions;
 
 import com.neeraj2608.funwithprogramming.crackingTheCodingInterviewSolutions.chapter1stringsarrays.CrackingTheCodingInterviewSolutionsChapter1;
-import com.neeraj2608.funwithprogramming.minheap.MinHeap;
 
 class CrackingTheCodingInterviewSolutions
 {
@@ -21,48 +20,6 @@ class CrackingTheCodingInterviewSolutions
     System.out.println("a = "+a+", b = "+b);
   }
   
-  private static int[] mergesortaux(int[] arr){
-    return m(arr,0,arr.length-1);
-  }
-  
-  private static int[] m(int[] arr, int start, int end){
-    if(start>=end){
-      int[] result = new int[1];
-      result[0] = arr[start];
-      return result;
-    }
-    
-    int half = (start+end)>>1;
-    return merge(m(arr,start,half),m(arr,half+1,end));
-  }
-
-  private static int[] merge(int[] a, int[] b){
-    int[] result = new int[a.length+b.length];
-    int i=0,j=0,k=0;
-    while(k<result.length){
-      if(i==a.length)
-        result[k++] = b[j++];
-      else if(j==b.length)
-        result[k++] = a[i++];
-      else{
-        if(a[i]<b[j])
-          result[k++] = a[i++];
-        else
-          result[k++] = b[j++];
-      }
-    }
-    return result;
-  }
-  
-  private static void heapsort(int[] arr){
-    MinHeap minHeap = new MinHeap(arr.length);
-    for(int i: arr){
-      minHeap.insert(i);
-    }
-    for(int i=0;i<arr.length;++i)
-      arr[i] = minHeap.deleteMinSiftDown();
-  }
-
   private static void blah(){
     int x = 5;
     int y = 10;
@@ -133,16 +90,6 @@ class CrackingTheCodingInterviewSolutions
     swapNoBuf2(N, M);
     
     blah();
-    
-    int[] arr3 = new int[]{1,2,3,4,5};
-    arr3 = mergesortaux(arr3);
-    
-    arr3 = new int[]{5,4,3,2,1};
-    arr3 = mergesortaux(arr3);
-    arr3 = new int[]{5,4,3,2,1};
-    heapsort(arr3);
-    arr3 = new int[]{5,3,-1,0,-2};
-    heapsort(arr3);
     
     A a3 = new A();
     test1(a3);
