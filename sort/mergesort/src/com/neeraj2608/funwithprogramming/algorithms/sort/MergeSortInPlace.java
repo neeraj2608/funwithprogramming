@@ -14,32 +14,30 @@ public class MergeSortInPlace{
     //Pass 1: we're merging arrays of length 1
     //5       3
     //start   j   stop
-    //(compare arr[start] with arr[j]. 5 is larger than 3, so need to rotate (j-start) times = once.)
+    //(compare arr[start] with arr[j]. 5 is larger than 3, so need to rotate [start,j] (j-start) times = once. increment j)
     //3       5
     //        start j
     //              stop
     //j has become >= stop so stop 
     //1       2
     //start   j   stop
-    //(compare arr[start] with arr[j]. 1 is smaller than 2, increment start.)
+    //(compare arr[start] with arr[j]. 1 is smaller than 2, increment start. after increment, start==j so increment j.)
     //1       2
     //        start  j
     //               stop
     //j has become >= stop so stop 
     //Pass 2: we merge arrays of length 2
-    //3       5   1      2
-    //start       j         stop
-    //(compare arr[start] with arr[j]. 3 is larger than 1, so need to rotate (j-start) times = twice.)
-    //5       1      2      3
+    //3       5      1      2
+    //start          j         stop
+    //(compare arr[start] with arr[j]. 3 is larger than 1, so need to rotate [start,j] (j-start) times = twice. This jth position has thus been taken care of. Increment j)
+    //5       1      3      2
+    //1       3      5      2
+    //        start         j  stop
+    //(compare arr[start] with arr[j]. 3 is larger than 2, so need to rotate [start,j] (j-start) times = twice. This jth position has thus been taken care of. Increment j)
+    //1       5      2      3
     //1       2      3      5
-    //        start  j         stop
-    //(compare arr[start] with arr[j]. 2 is smaller than 3, increment start. Since start == j, increment j.)
-    //1       2      3      5
-    //               start  j  stop
-    //(compare arr[start] with arr[j]. 3 is smaller than 5, increment start. Since start == j, increment j.)
-    //1       2      3      5
-    //                      start  j
-    //                             stop
+    //               start     j
+    //                         stop
     //j has become >= stop so stop 
     //Pass 3: we merge arrays of length 4
     //j would be larger than the array, so we can stop.
@@ -53,6 +51,7 @@ public class MergeSortInPlace{
         while(start<stop){
           if(arr[start]>arr[j]){
             rotate(arr,start,j,j-start);
+            j++;
           }
           start++;
           if(start==j) j++;
@@ -66,7 +65,7 @@ public class MergeSortInPlace{
   
   private static void rotate(int[] arr, int start, int stop, int times){
     while(times>0){
-      for(int i=start;i<=stop;++i){
+      for(int i=start;i<stop;++i){
         int temp = arr[i];
         arr[i] = arr[i+1];
         arr[i+1] = temp;

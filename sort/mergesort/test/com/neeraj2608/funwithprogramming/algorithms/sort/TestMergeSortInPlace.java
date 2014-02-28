@@ -17,11 +17,17 @@ public class TestMergeSortInPlace{
     MergeSortInPlace.mergeSortInPlace(arr3);
     assertArrayEquals(arr1, arr3);
     
+    arr1 = new int[]{-2,-1,0,3,5};
     arr3 = new int[]{5,3,-1,0,-2};
     MergeSortInPlace.mergeSortInPlace(arr3);
     
     arr1 = new int[]{-6,-5,0,2,2,7,9};
     arr3 = new int[]{-5,2,-6,2,7,9,0};
+    MergeSortInPlace.mergeSortInPlace(arr3);
+    assertArrayEquals(arr1, arr3);
+    
+    arr1 = new int[]{-17,-2,6,12,20,45};
+    arr3 = new int[]{6,45,-2,20,-17,12};
     MergeSortInPlace.mergeSortInPlace(arr3);
     assertArrayEquals(arr1, arr3);
   }
