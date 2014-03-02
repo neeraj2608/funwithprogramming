@@ -20,7 +20,7 @@ Data structures, algorithms and programming puzzles for fun.
   - trie
   - suffix tree
     - O(n<sup>2</sup>) naive construction
-    - O(n) space version
+    - O(n) space version with edge-label compression
 
 ##### Algorithms
   - Sorting
