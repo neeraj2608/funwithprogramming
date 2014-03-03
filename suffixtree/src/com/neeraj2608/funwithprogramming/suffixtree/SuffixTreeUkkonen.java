@@ -1,6 +1,7 @@
 package com.neeraj2608.funwithprogramming.suffixtree;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 /**
@@ -14,12 +15,12 @@ public class SuffixTreeUkkonen{
   private SuffixTreeNode root;
   private String orgS;
   int endIndex; //the end of all leaves
-  private Stack<SuffixTreeNode> suffixLinksToProcess;
+  private Stack<SuffixTreeNode> pendingSuffixLinks;
   
   public SuffixTreeUkkonen(){
     root = new SuffixTreeNode(-1, -1);
     root.setDepth(0);
-    suffixLinksToProcess = new Stack<SuffixTreeNode>();
+    pendingSuffixLinks = new Stack<SuffixTreeNode>();
   }
   
   public void insert(String s){
@@ -27,112 +28,114 @@ public class SuffixTreeUkkonen{
     ins(root,0,0);
   }
   
-  private void ins(SuffixTreeNode n, int ext, int ph){
-    if(ext>ph){ //all extensions for this phase done; try next phase
-      while(!suffixLinksToProcess.isEmpty()){
-        createSuffixLink(suffixLinksToProcess.pop());
-      }
-      ins(n,0,ph+1);
+  private void ins(SuffixTreeNode n, int extension, int phase){
+    if(extension>phase){ //all extensions for this phase done; try next phase
+      processPendingSuffixLinksForThisPhase();
+      ins(n, 0, phase + 1);
       return;
     }
     
-    if(ph == orgS.length()) return; //all phases done
+    if(phase == orgS.length()) return; //all phases done
     
-    endIndex = ph+1;
+    endIndex = phase;
     
-    String sti = orgS.substring(ext, endIndex);
+    String sti = orgS.substring(extension, phase+1);
     
-    for(String k: n.getMap().keySet()){
-      //EXTENSION RULE 3
-      if(k.startsWith(sti)){ //also covers the case where k is the same as sti e.g. k = ab, sti = ab; k = ab, sti = a
-        while(!suffixLinksToProcess.isEmpty()){
-          createSuffixLink(suffixLinksToProcess.pop());
+    for(SuffixTreeNode currentNode: n.getMap()){
+      String k = orgS.substring(currentNode.getStart(),currentNode.getFinish());
+      int numCommon = numberOfSameChars(k, sti);
+      if(numCommon > 0){
+        if(numCommon == k.length()){
+          //2 cases possible: k == sti OR k < sti
+          //2nd case
+          //if currentNode is NOT leaf,
+          //recurse on currentNode's children to find the rest of sti
+          //if(!currentNode.isLeaf() && numCommon < sti.length()){
+            ins(currentNode, extension + numCommon, phase);
+          //}
+          ins(n, extension + 1, phase);
         }
-        ins(n,0,ph+1); //all the remaining extensions are already present, skip to the next phase
-        return;
-      }
-      
-      if(sti.startsWith(k)){ //we've already covered the "sti is the same as k" case above,
-                             //so we could only come here if sti length > k length e.g. sti = ab, k = a
-        //if we're at a leaf, do nothing to the leaf node itself since endIndex has already taken care of the label augment.
-        //however, we need to update the map so the "edge" label (the key in the map is updated to the augmented string)
-        //once this is done, go on to the next extension
-        if(n.getMap().get(k).isEnd()){
-          SuffixTreeNode n1 = n.getMap().get(k);
-          n.getMap().remove(k);
-          n.getMap().put(k+sti.substring(k.length(),k.length()+1), n1);
-          ins(n,ext+1,ph);
-          return;
+        else if (numCommon == sti.length()){
+          //1 case possible: k > sti
+          //this suffix is already completely present in tree. all the other extensions for this phase are present too.
+          //hence, skip to the next phase.
+          processPendingSuffixLinksForThisPhase();
+          ins(n , 0, phase+1);
         }
-        //EXTENSION RULE 2
-        //if we're not at a leaf, we have to examine k's children to see if the next characters of sti are present in any of them
-        //                        if not, we have to make a split
-        if(!n.getMap().get(k).isEnd()){
-          ins(n.getMap().get(k),ext+k.length(),ph);
-          ins(n,ext+1,ph);
-          return;
+        else{
+          //1 case possible: sti and k have some prefix in common but not the whole string
+          SuffixTreeNode currentNodeReplacement = splitOff(currentNode, sti, numCommon);
+          SuffixTreeNode newSuffixNode = new SuffixTreeNode(extension + numCommon, phase + 1);
+          newSuffixNode.setParent(currentNodeReplacement);
+          newSuffixNode.setDepth(currentNodeReplacement.getDepth()+1);
+          newSuffixNode.setLeaf(true);
+          currentNodeReplacement.getMap().add(newSuffixNode);
+          ins(n, extension+1, phase);
         }
-      }
-      
-      //sti and k might have some chars in common e.g. sti = ab, k = aab;
-      int x = numberOfSameChars(k, sti);
-      if(x>0){
-        SuffixTreeNode n1 = split(n,k,sti, x);
-        SuffixTreeNode n2 = new SuffixTreeNode(ext+x,endIndex);
-        n2.setParent(n1);
-        n2.setDepth(n1.getDepth()+1);
-        n2.setEnd(true);
-        n1.getMap().put(orgS.substring(n2.getStart(),n2.getFinish()), n2);
-        ins(n,ext+1,ph);
         return;
       }
     }
     
     //EXTENSION RULE 1
     //create a new leaf since we found no matches in n's map
-    SuffixTreeNode n1 = new SuffixTreeNode(ext, endIndex);
+    SuffixTreeNode n1 = new SuffixTreeNode(extension, phase+1);
     n1.setDepth(n.getDepth()+1);
     n1.setParent(n);
-    n1.setEnd(true);
-    n.getMap().put(orgS.substring(ext,endIndex), n1);
-    ins(n,ext+1,ph);
+    n1.setLeaf(true);
+    n.getMap().add(n1);
+    ins(n,extension+1,phase);
+  }
+
+  private void processPendingSuffixLinksForThisPhase(){
+    if(pendingSuffixLinks.isEmpty())
+      return;
+    
+    SuffixTreeNode n1 = pendingSuffixLinks.pop();
+    SuffixTreeNode n1Parent = n1.getParent();
+    
+    n1.setSuffixLinkNode(n1Parent);
+    for(SuffixTreeNode currentNode: n1Parent.getMap()){
+      String k = orgS.substring(currentNode.getStart(),currentNode.getFinish());
+      if(k.startsWith(n1.getSuffixLinkSearchChar()) && !currentNode.isLeaf() && currentNode!=n1){
+        n1.setSuffixLinkNode(currentNode);
+        break;
+      }
+    }
+    n1.setSuffixLinkSearchChar("");
+    
+    while(!pendingSuffixLinks.isEmpty()){
+      SuffixTreeNode n2 = pendingSuffixLinks.pop();
+      n2.setSuffixLinkNode(n1);
+      n2.setSuffixLinkSearchChar("");
+      n1 = n2;
+    }
   }
   
   /**
    * This method creates a new internal node!
    * @return
    */
-  private SuffixTreeNode split(SuffixTreeNode n, String k, String sti, int x){
-    SuffixTreeNode nodeToReplace = n.getMap().get(k);
-    SuffixTreeNode n1 = new SuffixTreeNode(nodeToReplace.getStart(),nodeToReplace.getStart()+x);
-    n1.setMap(nodeToReplace.getMap());
-    n1.setDepth(nodeToReplace.getDepth());
+  private SuffixTreeNode splitOff(SuffixTreeNode nodeToReplace, String sti, int numCommon){
+    //  n                                 n
+    //  |                                 |
+    //  nodeToReplace[start,finish)  =>   n1[start,start+x)
+    //                                    |
+    //                                    nodeToReplace[start+x,finish)
+    SuffixTreeNode n = nodeToReplace.getParent();
+    SuffixTreeNode n1 = new SuffixTreeNode(nodeToReplace.getStart(), nodeToReplace.getStart() + numCommon);
+    n1.setDepth(n.getDepth()+1);
     n1.setParent(n);
-    n1.setSuffixLinkSearchString(sti.substring(x,x+1));
-    suffixLinksToProcess.push(n1);
-    n.getMap().remove(k);
-    n.getMap().put(orgS.substring(n1.getStart(),n1.getFinish()), n1);
+    n1.setSuffixLinkSearchChar(sti.substring(1,2));
+    n.getMap().remove(nodeToReplace);
+    n.getMap().add(n1);
     
-    SuffixTreeNode n2 = new SuffixTreeNode(n1.getFinish(), endIndex);
-    n2.setEnd(true);
-    n2.setParent(n1);
-    n2.setDepth(n1.getDepth()+1);
-    n1.getMap().put(orgS.substring(n2.getStart(),n2.getFinish()), n2);
+    nodeToReplace.setParent(n1);
+    nodeToReplace.setStart(n1.getFinish());
+    nodeToReplace.setDepth(n1.getDepth()+1);
+    n1.getMap().add(nodeToReplace);
+    
+    pendingSuffixLinks.push(n1);
     return n1;
-  }
-
-  private void createSuffixLink(SuffixTreeNode n){
-    if(n.getParent()!=root)
-      n.setSuffixLinkNode(n.getParent());
-    else{
-      for(String k: root.getMap().keySet()){
-        if(k.startsWith(n.getSuffixLinkSearchString())){
-          n.setSuffixLinkNode(root.getMap().get(k));
-          n.setSuffixLinkSearchString("");
-          break;
-        }
-      }
-    }
   }
 
   private int numberOfSameChars(String s1, String s2){ //assume s1.length < s2.length
@@ -149,29 +152,25 @@ public class SuffixTreeUkkonen{
 
   private class SuffixTreeNode{
     private int start, finish;
-    private HashMap <String, SuffixTreeNode> map;
+    private List<SuffixTreeNode> map;
     private SuffixTreeNode suffixLinkNode;
     private SuffixTreeNode parent; //useful for applications like palindromes
-    private boolean end; //if end is true, ignore finish and look straight at SuffixTreeUkkonen.endIndex
+    private boolean leaf; //if end is true, ignore finish and look straight at SuffixTreeUkkonen.endIndex
     private int depth;
-    private String suffixLinkSearchString;
+    private String suffixLinkSearchChar;
     
     public SuffixTreeNode(int start, int finish){
       this.start = start;
       this.finish = finish;
-      map = new HashMap<String, SuffixTreeNode>();
+      map = new ArrayList<SuffixTreeNode>();
     }
     
     public int getLength(){
       return getFinish() - start;
     }
 
-    public HashMap<String, SuffixTreeNode> getMap(){
+    public List<SuffixTreeNode> getMap(){
       return map;
-    }
-
-    public void setMap(HashMap<String, SuffixTreeNode> map){
-      this.map = map;
     }
 
     public SuffixTreeNode getParent(){
@@ -182,12 +181,12 @@ public class SuffixTreeUkkonen{
       this.parent = parent;
     }
 
-    public boolean isEnd(){
-      return end;
+    public boolean isLeaf(){
+      return leaf;
     }
 
-    public void setEnd(boolean end){
-      this.end = end;
+    public void setLeaf(boolean leaf){
+      this.leaf = leaf;
     }
 
     public int getDepth(){
@@ -203,7 +202,7 @@ public class SuffixTreeUkkonen{
     }
 
     public int getFinish(){
-      return isEnd()? SuffixTreeUkkonen.this.endIndex: finish;
+      return isLeaf()? SuffixTreeUkkonen.this.endIndex: finish;
     }
 
     public SuffixTreeNode getSuffixLinkNode(){
@@ -214,12 +213,20 @@ public class SuffixTreeUkkonen{
       this.suffixLinkNode = suffixLinkNode;
     }
 
-    public String getSuffixLinkSearchString(){
-      return suffixLinkSearchString;
+    public String getSuffixLinkSearchChar(){
+      return suffixLinkSearchChar;
     }
 
-    public void setSuffixLinkSearchString(String suffixLinkSearchString){
-      this.suffixLinkSearchString = suffixLinkSearchString;
+    public void setSuffixLinkSearchChar(String suffixLinkSearchChar){
+      this.suffixLinkSearchChar = suffixLinkSearchChar;
+    }
+
+    public void setStart(int start){
+      this.start = start;
+    }
+
+    public void setFinish(int finish){
+      this.finish = finish;
     }
   }
 }
