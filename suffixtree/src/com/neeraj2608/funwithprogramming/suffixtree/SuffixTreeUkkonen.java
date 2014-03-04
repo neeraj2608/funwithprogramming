@@ -87,7 +87,7 @@ public class SuffixTreeUkkonen{
           node.setFinish(phase+1);
         else{
           node = splitPath(node,overlap);
-          node.setSuffixLinkSearchChar(originalString.substring(phase,phase+1));
+          node.setSuffixLinkSearchChar(originalString.substring(node.getStart()+1, node.getStart()+2));
           addLeafNodeOnlyIfUnique(node,phase);
         }
       } else { //precedingString ended INSIDE the path so far
@@ -99,7 +99,7 @@ public class SuffixTreeUkkonen{
           }
           else{ //if not, split
             node = splitPath(node,overlap);
-            node.setSuffixLinkSearchChar(originalString.substring(phase,phase+1));
+            node.setSuffixLinkSearchChar(originalString.substring(node.getStart()+1, node.getStart()+2));
             addLeafNodeOnlyIfUnique(node,phase);
           }
         }
@@ -111,7 +111,7 @@ public class SuffixTreeUkkonen{
       }
       else{ //if not, split
         node = splitPath(node,overlap);
-        node.setSuffixLinkSearchChar(originalString.substring(phase,phase+1));
+        node.setSuffixLinkSearchChar(originalString.substring(node.getStart()+1, node.getStart()+2));
         addLeafNodeOnlyIfUnique(node,phase);
       }
     }

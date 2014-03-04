@@ -13,7 +13,7 @@ public class TestSuffixTreeUkkonen{
   
   @Test
   public void testInsert(){
-    st.insert("aab");
+    st.insert("cdddcdc");
   }
 
 }
