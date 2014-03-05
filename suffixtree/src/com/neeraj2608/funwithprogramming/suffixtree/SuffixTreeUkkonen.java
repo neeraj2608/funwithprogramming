@@ -61,39 +61,41 @@ public class SuffixTreeUkkonen{
     String toInsert = originalString.substring(phase,phase+1);
     
     FindSuffixTreeNodeResult matchingNodeResult = findLeaf(new FindSuffixTreeNodeResult(node,0), stringToFind);
-    SuffixTreeNode matchingNode = matchingNodeResult.n;
+    SuffixTreeNode matchingLeaf = matchingNodeResult.n;
    
     int overlap = matchingNodeResult.overlap;
     
     //use suffix rules to augment leaf
-    if(matchingNode.isLeaf()){ //RULE 1
-      matchingNode.setFinish(phase+1);
-      if(overlap<matchingNode.getLength()-1){
-        if(matchingNode.getLabel().substring(overlap,overlap+1).equals(toInsert)){ //RULE 3
+    if(matchingLeaf.isLeaf()){ //RULE 1
+      matchingLeaf.setFinish(phase+1);
+      if(overlap<matchingLeaf.getLength()-1){
+        if(matchingLeaf.getLabel().substring(overlap,overlap+1).equals(toInsert)){ //RULE 3
         }
         else{
-          matchingNode = addLeafNode(splitPath(matchingNode,overlap), phase); //RULE 2
+          matchingLeaf = addLeafNode(splitPath(matchingLeaf,overlap), phase); //RULE 2
         }
       }
     }
     else{
-      if(overlap<matchingNode.getLength()){
-        if(matchingNode.getLabel().substring(overlap,overlap+1).equals(toInsert)){ //RULE 3
+      if(overlap<matchingLeaf.getLength()){
+        if(matchingLeaf.getLabel().substring(overlap,overlap+1).equals(toInsert)){ //RULE 3
         }
         else{
-          matchingNode = addLeafNode(splitPath(matchingNode,overlap), phase); //RULE 2
+          matchingLeaf = addLeafNode(splitPath(matchingLeaf,overlap), phase); //RULE 2
         }
       }
     }
     
     processPendingSuffixLinksForThisExtension();
     
-    if(matchingNode.getParent().getSuffixLinkNode()==root){
+    SuffixTreeNode nextNode = matchingLeaf.getParent().getSuffixLinkNode();
+    
+    if(nextNode==root && node==root){ //if we were already at the root, we must go to the next extension
       insert(root,start+1,phase);
       return;
     }
     
-    insert(matchingNode.getParent().getSuffixLinkNode(), matchingNode.getStart(), phase);
+    insert(nextNode, matchingLeaf.getStart(), phase); //else, we look for the leaf's label
   }
 
   private FindSuffixTreeNodeResult findLeaf(FindSuffixTreeNodeResult sr, String s){
@@ -110,6 +112,7 @@ public class SuffixTreeUkkonen{
     }
     return sr;
   }
+  
   /**
    * Adds a leaf node n1 to a given node n2 only if n2 doesn't have a child
    * that starts with the first character of n1.
