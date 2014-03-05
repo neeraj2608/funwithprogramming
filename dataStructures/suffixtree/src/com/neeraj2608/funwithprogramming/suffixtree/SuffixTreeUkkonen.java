@@ -17,7 +17,9 @@ public class SuffixTreeUkkonen{
   private SuffixTreeNode fullStringLeafNode; //points to the leaf node representing the full string in the tree
   private String originalString;
   private Stack<SuffixTreeNode> pendingSuffixLinks;
-  private int e; //nomenclature used in paper
+  private int leafEnding; //nomenclature used in paper: 'e'
+  private int rule2LatestExtension; //nomenclature used in paper: 'r'
+  private boolean earlyHalt;
   
   public SuffixTreeUkkonen(){
     root = new SuffixTreeNode(0, 0);
@@ -37,7 +39,9 @@ public class SuffixTreeUkkonen{
     fullStringLeafNode = addLeafNode(root, 0);
     
     for(int phase=1;phase<s.length();++phase){
-      e = phase+1;
+      leafEnding = phase+1;
+      earlyHalt = false;
+      rule2LatestExtension = fullStringLeafNode.getStart();
       insert(fullStringLeafNode.getParent().getSuffixLinkNode(),fullStringLeafNode.getStart(),phase);
       processPendingSuffixLinksForThisPhase();
     }
@@ -68,18 +72,24 @@ public class SuffixTreeUkkonen{
     if(matchingLeaf.isLeaf()){ //RULE 1
       if(overlap<matchingLeaf.getAdjustedLength()){
         if(matchingLeaf.getLabel().substring(overlap,overlap+1).equals(toInsert)){ //RULE 3
+          if(start>rule2LatestExtension) //RULE 2 has already been applied; skip to next phase
+            earlyHalt = true;
         }
         else{
           matchingLeaf = addLeafNode(splitPath(matchingLeaf,overlap), phase); //RULE 2
+          rule2LatestExtension = start;
         }
       }
     }
     else{
       if(overlap<matchingLeaf.getLength()){
         if(matchingLeaf.getLabel().substring(overlap,overlap+1).equals(toInsert)){ //RULE 3
+          if(start>rule2LatestExtension) //RULE 2 has already been applied; skip to next phase
+            earlyHalt = true;
         }
         else{
           matchingLeaf = addLeafNode(splitPath(matchingLeaf,overlap), phase); //RULE 2
+          rule2LatestExtension = start;
         }
       }
     }
@@ -101,6 +111,8 @@ public class SuffixTreeUkkonen{
       insert(root,start+1,phase);
       return;
     }
+    else
+      if(earlyHalt) return;
     
     insert(nextNode, matchingLeaf.getStart(), phase); //else, we look for the leaf's label
   }
@@ -399,7 +411,7 @@ public class SuffixTreeUkkonen{
     }
 
     public int getFinish(){
-      return isLeaf()? SuffixTreeUkkonen.this.e:finish;
+      return isLeaf()? SuffixTreeUkkonen.this.leafEnding:finish;
     }
 
     public SuffixTreeNode getSuffixLinkNode(){
