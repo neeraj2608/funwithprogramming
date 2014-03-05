@@ -19,7 +19,6 @@ public class SuffixTreeUkkonen{
   private Stack<SuffixTreeNode> pendingSuffixLinks;
   private int leafEnding; //nomenclature used in paper: 'e'
   private int rule2LatestExtension; //nomenclature used in paper: 'r'
-  private boolean earlyHalt;
   
   public SuffixTreeUkkonen(){
     root = new SuffixTreeNode(0, 0);
@@ -41,7 +40,6 @@ public class SuffixTreeUkkonen{
     
     for(int phase=1;phase<s.length();++phase){
       leafEnding = phase+1;
-      earlyHalt = false;
       insert(fullStringLeafNode.getParent().getSuffixLinkNode(),rule2LatestExtension,phase); //Start at rule2LatestExtension for fast leaf update
       processPendingSuffixLinksForThisPhase();
     }
@@ -287,25 +285,6 @@ public class SuffixTreeUkkonen{
     pendingSuffixLinks.push(n1);
     return n1;
   }
-
-  /**
-   * Returns number of common characters between two input strings.
-   * 
-   * @param s1 first string
-   * @param s2 second string
-   * @return
-   */
-  private int numberOfSameChars(String s1, String s2){ //assume s1.length < s2.length
-    if(s1.length() > s2.length())
-      return numberOfSameChars(s2, s1);
-    
-    int i = 0;
-    while(i<s1.length() && s1.charAt(i)==s2.charAt(i)){
-      i++;
-    }
-    
-    return i;
-  }
   
   /**
    * Helper class to encapsulate results of node search. In particular, in addition
@@ -415,10 +394,6 @@ public class SuffixTreeUkkonen{
 
     public void setStart(int start){
       this.start = start;
-    }
-
-    public void setFinish(int finish){
-      this.finish = finish;
     }
   }
 }
