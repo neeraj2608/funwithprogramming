@@ -87,6 +87,15 @@ public class SuffixTreeUkkonen{
     
     processPendingSuffixLinksForThisExtension();
     
+    //1. We're currently at a leaf with label (say) alpha.
+    //2. Walk up to the nearest node (can be root or an internal node).
+    //3. Go to the suffix link of that node (if root, we define the suffix link
+    //   as pointing to itself -- a departure from the paper but makes
+    //   the algorithm implementation much cleaner)
+    //4. From the suffix link, walk down until the path you have walked becomes
+    //   the same as alpha. Note that alpha is already augmented with the character
+    //   we're adding for this extension (toInsert), hence we ignore that character
+    //   and look for the rest of alpha.
     SuffixTreeNode nextNode = matchingLeaf.getParent().getSuffixLinkNode();
     
     if(nextNode==root && node==root){ //if we were already at the root, we must go to the next extension
