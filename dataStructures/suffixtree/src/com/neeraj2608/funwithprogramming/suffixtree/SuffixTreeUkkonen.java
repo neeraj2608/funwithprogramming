@@ -17,12 +17,12 @@ public class SuffixTreeUkkonen{
   private SuffixTreeNode fullStringLeafNode; //points to the leaf node representing the full string in the tree
   private String originalString;
   private Stack<SuffixTreeNode> pendingSuffixLinks;
+  private int e; //nomenclature used in paper
   
   public SuffixTreeUkkonen(){
     root = new SuffixTreeNode(0, 0);
     root.setDepth(0);
     root.setSuffixLinkNode(root);
-    fullStringLeafNode = root;
     pendingSuffixLinks = new Stack<SuffixTreeNode>();
   }
   
@@ -37,8 +37,7 @@ public class SuffixTreeUkkonen{
     fullStringLeafNode = addLeafNode(root, 0);
     
     for(int phase=1;phase<s.length();++phase){
-      //ins(root,0,phase);
-      fullStringLeafNode.setFinish(phase+1);
+      e = phase+1;
       insert(fullStringLeafNode.getParent().getSuffixLinkNode(),fullStringLeafNode.getStart(),phase);
       processPendingSuffixLinksForThisPhase();
     }
@@ -59,15 +58,15 @@ public class SuffixTreeUkkonen{
     
     String toInsert = originalString.substring(phase,phase+1);
     
-    FindSuffixTreeNodeResultSpeedUp matchingNodeResult = findLeafWithSkipCount(new FindSuffixTreeNodeResultSpeedUp(node,0,start), (phase-start));
+    int alphaLength = phase-start;
+    FindSuffixTreeNodeResultSpeedUp matchingNodeResult = findLeafWithSkipCount(new FindSuffixTreeNodeResultSpeedUp(node,0,start), alphaLength);
     SuffixTreeNode matchingLeaf = matchingNodeResult.n;
    
-    int overlap = numberOfSameChars(matchingLeaf.getLabel(),originalString.substring(start));
+    int overlap = matchingLeaf.getAdjustedLength()-(matchingNodeResult.examinedLength-alphaLength); //we use adjustedLength even to calculate examinedLength
     
     //use suffix rules to augment leaf
     if(matchingLeaf.isLeaf()){ //RULE 1
-      matchingLeaf.setFinish(phase+1);
-      if(overlap<matchingLeaf.getLength()-1){
+      if(overlap<matchingLeaf.getAdjustedLength()){
         if(matchingLeaf.getLabel().substring(overlap,overlap+1).equals(toInsert)){ //RULE 3
         }
         else{
@@ -115,8 +114,8 @@ public class SuffixTreeUkkonen{
     for(SuffixTreeNode c: sr.n.getMap()){
       if(c.getCharFromLabel(0).equals(charToLookFor)){
         sr.n = c;
-        if(alphaLength > (c.getLength() + sr.examinedLength)){ //path not long enough yet, keep looking
-          sr.examinedLength += c.getLength();
+        sr.examinedLength += c.getAdjustedLength();
+        if(alphaLength > sr.examinedLength){ //path not long enough yet, keep looking
           sr.lookAtPos += c.getLength();
           return findLeafWithSkipCount(sr, alphaLength);
         }
@@ -352,7 +351,11 @@ public class SuffixTreeUkkonen{
     }
     
     public int getLength(){
-      return getFinish() - start;
+      return getFinish() - getStart();
+    }
+    
+    public int getAdjustedLength(){
+      return isLeaf()? getLength()-1 : getLength();
     }
     
     public String getCharFromLabel(int offset){
@@ -360,7 +363,7 @@ public class SuffixTreeUkkonen{
     }
     
     public String getLabel(){
-      return originalString.substring(start,finish);
+      return originalString.substring(getStart(),getFinish());
     }
 
     public List<SuffixTreeNode> getMap(){
@@ -396,7 +399,7 @@ public class SuffixTreeUkkonen{
     }
 
     public int getFinish(){
-      return finish;
+      return isLeaf()? SuffixTreeUkkonen.this.e:finish;
     }
 
     public SuffixTreeNode getSuffixLinkNode(){
