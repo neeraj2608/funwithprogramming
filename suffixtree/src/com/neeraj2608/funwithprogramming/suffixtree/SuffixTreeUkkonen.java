@@ -69,28 +69,14 @@ public class SuffixTreeUkkonen{
     int overlap = matchingLeaf.getAdjustedLength()-(matchingNodeResult.examinedLength-alphaLength); //we use adjustedLength even to calculate examinedLength
     
     //use suffix rules to augment leaf
-    if(matchingLeaf.isLeaf()){ //RULE 1
-      if(overlap<matchingLeaf.getAdjustedLength()){
-        if(matchingLeaf.getLabel().substring(overlap,overlap+1).equals(toInsert)){ //RULE 3
-          if(start>rule2LatestExtension) //RULE 2 has already been applied; skip to next phase
-            earlyHalt = true;
-        }
-        else{
-          matchingLeaf = addLeafNode(splitPath(matchingLeaf,overlap), phase); //RULE 2
-          rule2LatestExtension = start;
-        }
+    if(overlap<matchingLeaf.getAdjustedLength()){
+      if(matchingLeaf.getLabel().substring(overlap,overlap+1).equals(toInsert)){ //RULE 3
+        if(start>rule2LatestExtension) //RULE 2 has already been applied; skip to next phase
+          earlyHalt = true;
       }
-    }
-    else{
-      if(overlap<matchingLeaf.getLength()){
-        if(matchingLeaf.getLabel().substring(overlap,overlap+1).equals(toInsert)){ //RULE 3
-          if(start>rule2LatestExtension) //RULE 2 has already been applied; skip to next phase
-            earlyHalt = true;
-        }
-        else{
-          matchingLeaf = addLeafNode(splitPath(matchingLeaf,overlap), phase); //RULE 2
-          rule2LatestExtension = start;
-        }
+      else{
+        matchingLeaf = addLeafNode(splitPath(matchingLeaf,overlap), phase); //RULE 2
+        rule2LatestExtension = start;
       }
     }
     
