@@ -37,12 +37,12 @@ public class SuffixTreeUkkonen{
     
     originalString = s;
     fullStringLeafNode = addLeafNode(root, 0);
+    rule2LatestExtension = fullStringLeafNode.getStart();
     
     for(int phase=1;phase<s.length();++phase){
       leafEnding = phase+1;
       earlyHalt = false;
-      rule2LatestExtension = fullStringLeafNode.getStart();
-      insert(fullStringLeafNode.getParent().getSuffixLinkNode(),fullStringLeafNode.getStart(),phase);
+      insert(fullStringLeafNode.getParent().getSuffixLinkNode(),rule2LatestExtension,phase); //Start at rule2LatestExtension for fast leaf update
       processPendingSuffixLinksForThisPhase();
     }
   }
@@ -71,8 +71,7 @@ public class SuffixTreeUkkonen{
     //use suffix rules to augment leaf
     if(overlap<matchingLeaf.getAdjustedLength()){
       if(matchingLeaf.getLabel().substring(overlap,overlap+1).equals(toInsert)){ //RULE 3
-        if(start>rule2LatestExtension) //RULE 2 has already been applied; skip to next phase
-          earlyHalt = true;
+        return; //Early Halt
       }
       else{
         matchingLeaf = addLeafNode(splitPath(matchingLeaf,overlap), phase); //RULE 2
@@ -97,8 +96,6 @@ public class SuffixTreeUkkonen{
       insert(root,start+1,phase);
       return;
     }
-    else
-      if(earlyHalt) return;
     
     insert(nextNode, matchingLeaf.getStart(), phase); //else, we look for the leaf's label
   }
