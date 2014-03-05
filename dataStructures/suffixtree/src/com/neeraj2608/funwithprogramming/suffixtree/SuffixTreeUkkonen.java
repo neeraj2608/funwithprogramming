@@ -57,13 +57,12 @@ public class SuffixTreeUkkonen{
       return;
     }
     
-    String stringToFind = originalString.substring(start, phase);
     String toInsert = originalString.substring(phase,phase+1);
     
-    FindSuffixTreeNodeResult matchingNodeResult = findLeaf(new FindSuffixTreeNodeResult(node,0), stringToFind);
+    FindSuffixTreeNodeResultSpeedUp matchingNodeResult = findLeafWithSkipCount(new FindSuffixTreeNodeResultSpeedUp(node,0,start), (phase-start));
     SuffixTreeNode matchingLeaf = matchingNodeResult.n;
    
-    int overlap = matchingNodeResult.overlap;
+    int overlap = numberOfSameChars(matchingLeaf.getLabel(),originalString.substring(start));
     
     //use suffix rules to augment leaf
     if(matchingLeaf.isLeaf()){ //RULE 1
@@ -97,17 +96,22 @@ public class SuffixTreeUkkonen{
     
     insert(nextNode, matchingLeaf.getStart(), phase); //else, we look for the leaf's label
   }
-
-  private FindSuffixTreeNodeResult findLeaf(FindSuffixTreeNodeResult sr, String s){
-    if(s.length()==0)
+  
+  private FindSuffixTreeNodeResultSpeedUp findLeafWithSkipCount(FindSuffixTreeNodeResultSpeedUp sr, int alphaLength){
+    if(alphaLength==0)
       return sr;
     
+    String charToLookFor = originalString.substring(sr.lookAtPos,sr.lookAtPos+1);
+    
     for(SuffixTreeNode c: sr.n.getMap()){
-      int overlap = numberOfSameChars(c.getLabel(), s);
-      if(overlap>0){
-        sr.overlap = overlap;
+      if(c.getCharFromLabel(0).equals(charToLookFor)){
         sr.n = c;
-        return findLeaf(sr,s.substring(sr.overlap));
+        if(alphaLength > (c.getLength() + sr.examinedLength)){ //path not long enough yet, keep looking
+          sr.examinedLength += c.getLength();
+          sr.lookAtPos += c.getLength();
+          return findLeafWithSkipCount(sr, alphaLength);
+        }
+        return sr;
       }
     }
     return sr;
@@ -302,18 +306,20 @@ public class SuffixTreeUkkonen{
   
   /**
    * Helper class to encapsulate results of node search. In particular, in addition
-   * to the node, we're also interested in the amount of overlap the input string
-   * had with the node's label.
+   * to the node, we're also interested in the length of the path examined so far and
+   * the current position of the string we're looking for ('h' in the paper)
    * 
    * @author Raj
    */
-  private class FindSuffixTreeNodeResult{
+  private class FindSuffixTreeNodeResultSpeedUp{
     SuffixTreeNode n;
-    int overlap;
+    int examinedLength;
+    int lookAtPos;
     
-    public FindSuffixTreeNodeResult(SuffixTreeNode n, int overlap){
+    public FindSuffixTreeNodeResultSpeedUp(SuffixTreeNode n, int examinedLength, int lookAtPos){
       this.n = n;
-      this.overlap = overlap;
+      this.examinedLength = examinedLength;
+      this.lookAtPos = lookAtPos;
     }
   }
 
@@ -338,6 +344,10 @@ public class SuffixTreeUkkonen{
     
     public int getLength(){
       return getFinish() - start;
+    }
+    
+    public String getCharFromLabel(int offset){
+      return getLabel().substring(offset,offset+1);
     }
     
     public String getLabel(){
