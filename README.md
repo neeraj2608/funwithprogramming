@@ -21,6 +21,7 @@ Data structures, algorithms and programming puzzles for fun.
   - suffix tree
     - O(n<sup>2</sup>) naive construction
     - O(n) space version with edge-label compression
+    - O(n) construction using Ukkonen's algorithm
 
 ##### Algorithms
   - Sorting

@@ -286,6 +286,55 @@ public class SuffixTreeUkkonen{
     return n1;
   }
   
+  public int findLCADepth(String s1, String s2){
+    SuffixTreeNode n1 = findLeafNode(s1);
+    SuffixTreeNode n2 = findLeafNode(s2);
+    SuffixTreeNode lcaNode = findLCA(n1, n2);
+    if(lcaNode == null)
+      return -1;
+    return lcaNode.getDepth();
+  }
+  
+  private SuffixTreeNode findLCA(SuffixTreeNode n1, SuffixTreeNode n2){
+    if(n1 == null || n2 == null)
+      return null;
+    
+    return recurseLCA(n1, n2);
+  }
+
+  private SuffixTreeNode recurseLCA(SuffixTreeNode n1, SuffixTreeNode n2){ //assume n1 is deeper than n2 or at equal depth
+    if(n1.getDepth()<n2.getDepth())
+      return recurseLCA(n2, n1);
+    
+    if(n1 == n2)
+      return n1;
+    
+    return recurseLCA(n1.getParent(),n2);
+  }
+  
+  private SuffixTreeNode findLeafNode(String s){
+    return findLeaf(root, s);
+  }
+  
+  private SuffixTreeNode findLeaf(SuffixTreeNode node, String s){
+    if(s.isEmpty())
+      if(node.isLeaf())
+        return node;
+      else
+        return null;
+    
+    for(SuffixTreeNode n: node.getMap()){
+      if(n.getCharFromLabel(0).equals(s.substring(0,1))){
+        if(n.getLength()>s.length())
+          return null;
+        else
+          return findLeaf(n, s.substring(n.getLength()));
+      }
+    }
+    
+    return null;
+  }
+  
   /**
    * Helper class to encapsulate results of node search. In particular, in addition
    * to the node, we're also interested in the length of the path examined so far and
