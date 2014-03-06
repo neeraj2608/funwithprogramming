@@ -2,8 +2,6 @@ package com.neeraj2608.funwithprogramming.suffixtree;
 
 import java.util.HashMap;
 
-//TODO: Modify suffix tree so that it only needs O(n) storage (store
-//      indices instead of the actual string in the nodes)
 public class SuffixTree{
   private SuffixTreeNode root;
   
