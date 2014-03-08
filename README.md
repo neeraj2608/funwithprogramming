@@ -6,22 +6,24 @@ Data structures, algorithms and programming puzzles for fun.
 #### Completed:
 
 ##### Data Structures
-  - linked list
-    - singly linked list
-    - doubly linked list
-  - min heap
-  - queue
-    - queue based on array
-    - queue based on singly linked list
-    - queue based on doubly linked list
-  - stack
-    - stack based on array
-    - stack based on singly linked list
-  - trie
-  - suffix tree
+  - Linked list
+    - Singly linked list
+    - Doubly linked list
+  - Min heap
+  - Queue
+    - Queue based on array
+    - Queue based on singly linked list
+    - Queue based on doubly linked list
+  - Stack
+    - Stack based on array
+    - Stack based on singly linked list
+  - Trie
+  - Suffix tree
     - O(n<sup>2</sup>) naive construction
     - O(n) space version with edge-label compression
     - O(n) construction using Ukkonen's algorithm
+  - Tree
+    - Binary search tree
 
 ##### Algorithms
   - Sorting
