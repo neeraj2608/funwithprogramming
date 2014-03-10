@@ -4,7 +4,7 @@ package com.neeraj2608.funwithprogramming.algorithms.sort;
  * In-place merge sort. Brainwave!
  * @author Raj
  */
-public class MergeSortInPlace{
+public class MergeSortInPlaceArrays{
   public static void mergeSortInPlace(int[] arr){
     //in the first pass, we start with arrays of 1 and merge.
     //since we're merging in place, the merge is done by rotating the array. this needs auxiliary
