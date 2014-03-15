@@ -1,42 +1,7 @@
-Fun With Programming
+Solutions to Cracking the Coding Interview
 ==================
 
-Data structures, algorithms and programming puzzles for fun.
-
 #### Completed:
-
-##### Data Structures
-  - Linked list
-    - Singly linked list
-    - Doubly linked list
-  - Min heap
-  - Queue
-    - Queue based on array
-    - Queue based on singly linked list
-    - Queue based on doubly linked list
-  - Stack
-    - Stack based on array
-    - Stack based on singly linked list
-  - Trie
-  - Suffix tree
-    - O(n<sup>2</sup>) naive construction
-    - O(n) space version with edge-label compression
-    - O(n) construction using Ukkonen's algorithm
-  - Tree
-    - Binary search tree
-
-##### Algorithms
-  - Sorting
-    - Bubble sort
-      - normal
-      - modified
-    - Insertion sort
-    - Selection sort
-    - Quick sort
-    - Merge sort
-      - In-place version on array
-      - Auxiliary space version on array
-    - Heap sort
 
 ##### Cracking the Coding Interview Solutions
   - Chapter 1: Strings and Arrays
