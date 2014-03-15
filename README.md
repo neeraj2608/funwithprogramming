@@ -2,6 +2,7 @@ Algorithms
 ==================
 
 #### Completed:
+
 ##### Algorithms
   - Sorting
     - Bubble sort

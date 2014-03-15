@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
-public class MergeSortInPlaceLinkedLists{
+public class MergeSortAuxiliarySpaceLinkedLists{
   public static List<Integer> mergeSortInPlace(List<Integer> list){
     int initSize = 1;
     List<Integer> result = new ArrayList<Integer>();
