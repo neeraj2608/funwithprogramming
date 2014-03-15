@@ -13,4 +13,5 @@ Algorithms
     - Merge sort
       - In-place version on array
       - Auxiliary space version on array
+      - Auxiliary space version on linked lists
     - Heap sort
