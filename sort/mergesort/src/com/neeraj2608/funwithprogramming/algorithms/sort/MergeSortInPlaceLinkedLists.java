@@ -1,14 +1,11 @@
 package com.neeraj2608.funwithprogramming.algorithms.sort;
 
-import com.neeraj2608.funwithprogramming.linkedlist.SLLNode;
-import com.neeraj2608.funwithprogramming.linkedlist.SinglyLinkedList;
-
 public class MergeSortInPlaceLinkedLists{
-  public static void mergeSortInPlace(SinglyLinkedList<Integer> list){
-    SLLNode<Integer> a = list.getHead();
-    SLLNode<Integer> b = a;
-    SLLNode<Integer> constructList = null;
-    SLLNode<Integer> newHead = null;
+  public static void mergeSortInPlace(SinglyLinkedListOfComparables<Integer> list){
+    SLLNodeOfComparable<Integer> a = list.getHead();
+    SLLNodeOfComparable<Integer> b = a;
+    SLLNodeOfComparable<Integer> constructList = null;
+    SLLNodeOfComparable<Integer> newHead = null;
     int initSize = 1;
     boolean endMerge = false;
 

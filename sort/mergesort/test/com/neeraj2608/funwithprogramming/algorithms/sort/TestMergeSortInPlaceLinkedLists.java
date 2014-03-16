@@ -4,15 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
-import static org.junit.Assert.assertArrayEquals;
 
-import com.neeraj2608.funwithprogramming.linkedlist.SinglyLinkedList;
+import static org.junit.Assert.assertArrayEquals;
 
 public class TestMergeSortInPlaceLinkedLists{
   
   @Test
   public void testMergeSortInPlacePowerOfTwoLengthArray(){
-    SinglyLinkedList<Integer> list1 = new SinglyLinkedList<Integer>();
+    SinglyLinkedListOfComparables<Integer> list1 = new SinglyLinkedListOfComparables<Integer>();
     list1.insert(2);
     list1.insert(4);
     list1.insert(9);
@@ -28,7 +27,7 @@ public class TestMergeSortInPlaceLinkedLists{
   
   @Test
   public void testMergeSortInPlaceOddLengthArray(){
-    SinglyLinkedList<Integer> list1 = new SinglyLinkedList<Integer>();
+    SinglyLinkedListOfComparables<Integer> list1 = new SinglyLinkedListOfComparables<Integer>();
     list1.insert(2);
     list1.insert(4);
     list1.insert(9);
@@ -41,7 +40,7 @@ public class TestMergeSortInPlaceLinkedLists{
     assertArrayEquals(toArray(list1),expected);
   }
   
-  private Object[] toArray(SinglyLinkedList<Integer> list){
+  private Object[] toArray(SinglyLinkedListOfComparables<Integer> list){
     List<Integer> l = new ArrayList<Integer>();
     while(!list.isEmpty()){
       l.add(list.remove());
