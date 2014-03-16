@@ -17,7 +17,7 @@ public class TestMergeSortAuxiliarySpaceLinkedLists{
     list1.add(5);
     list1.add(4);
     Integer[] expected = new Integer[]{1,2,3,4,5};
-    list1 = MergeSortAuxiliarySpaceLinkedLists.mergeSortInPlace(list1);
+    list1 = MergeSortAuxiliarySpaceLinkedLists.mergeSortAuxiliarySpace(list1);
     assertArrayEquals(list1.toArray(),expected);
   }
 
@@ -30,7 +30,7 @@ public class TestMergeSortAuxiliarySpaceLinkedLists{
     list1.add(5);
     list1.add(4);
     Integer[] expected = new Integer[]{1,2,3,4,5};
-    list1 = MergeSortAuxiliarySpaceLinkedLists.mergeSortInPlaceWithIterators(list1);
+    list1 = MergeSortAuxiliarySpaceLinkedLists.mergeSortAuxiliarySpaceWithIterators(list1);
     assertArrayEquals(list1.toArray(),expected);
   }
 

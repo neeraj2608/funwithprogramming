@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 public class MergeSortAuxiliarySpaceLinkedLists{
-  public static List<Integer> mergeSortInPlace(List<Integer> list){
+  public static List<Integer> mergeSortAuxiliarySpace(List<Integer> list){
     int initSize = 1;
     List<Integer> result = new ArrayList<Integer>();
     while(initSize < list.size()){
@@ -56,7 +56,7 @@ public class MergeSortAuxiliarySpaceLinkedLists{
   }
 
 
-  public static List<Integer> mergeSortInPlaceWithIterators(List<Integer> list){
+  public static List<Integer> mergeSortAuxiliarySpaceWithIterators(List<Integer> list){
     int initSize = 1;
     List<Integer> result = new ArrayList<Integer>();
     while(initSize < list.size()){
