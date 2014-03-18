@@ -21,4 +21,5 @@ Data Structures
     - O(n) space version with edge-label compression
     - O(n) construction using Ukkonen's algorithm
   - Tree
-    - Binary search tree
+    - Binary Search Tree
+    - Red-Black Tree

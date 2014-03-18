@@ -11,10 +11,12 @@ import org.junit.Test;
 public class TestSinglyLinkedList{
 
   SinglyLinkedList sll;
+  SinglyLinkedList sll1;
   
   @Before
   public void setup(){
     sll = new SinglyLinkedList();
+    sll1 = new SinglyLinkedList();
   }
   
   @Test
@@ -26,28 +28,28 @@ public class TestSinglyLinkedList{
   
   @Test
   public void testRemove(){
-    sll.insert(new String("a"));
-    sll.insert(new String("b"));
-    sll.insert(new String("c"));
-    assertEquals("c",sll.remove());
-    assertEquals("b",sll.remove());
-    assertEquals("a",sll.remove());
+    sll1.insert(new String("a"));
+    sll1.insert(new String("b"));
+    sll1.insert(new String("c"));
+    assertEquals("c",sll1.remove());
+    assertEquals("b",sll1.remove());
+    assertEquals("a",sll1.remove());
   }
   
   @Test(expected=RuntimeException.class)
   public void testRemoveThrowsException(){
-    sll.remove();
+    sll1.remove();
   }
   
   @Test
   public void testReverse(){
-    sll.insert(new String("a"));
-    sll.insert(new String("b"));
-    sll.insert(new String("c"));
-    sll.reverse();
-    assertEquals("a",sll.remove());
-    assertEquals("b",sll.remove());
-    assertEquals("c",sll.remove());
+    sll1.insert(new String("a"));
+    sll1.insert(new String("b"));
+    sll1.insert(new String("c"));
+    sll1.reverse();
+    assertEquals("a",sll1.remove());
+    assertEquals("b",sll1.remove());
+    assertEquals("c",sll1.remove());
   }
 
 }

@@ -45,4 +45,12 @@ public class SinglyLinkedList{
     return (head == null);
   }
 
+  public SLLNode getHead(){
+    return head;
+  }
+
+  public void setHead(SLLNode head){
+    this.head = head;
+  }
+
 }
