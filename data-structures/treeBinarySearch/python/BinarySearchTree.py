@@ -90,6 +90,7 @@ class Node:
         self.right = None
 
 def to_sorted_doubly_linked_list(bst):
+    ''' convert BST to sorted doubly linked list '''
     l = s.SinglyLinkedList()
     last = convert_to_dll(l, bst.root)
     l.head.prev = last
@@ -104,4 +105,25 @@ def convert_to_dll(l, node, prev=None):
     l.insertAtTail(newNode)
     return convert_to_dll(l, node.right, newNode)
 
+def is_bst(tree):
+    ''' return True if given binary tree is BST, False otherwise '''
+    if tree.root == None:
+        return False
+    return _is_bst(tree.root, tree.root.data, tree.root.data, None)
 
+def _is_bst(node, mn, mx, dir):
+    if(node == None):
+        return True
+
+    if(dir==LEFT and node.data > mx):
+        return False
+
+    if(dir==RIGHT and node.data < mn):
+        return False
+
+    if _is_bst(node.left, mn, node.data, LEFT) == False:
+        return False # fail out early
+    elif _is_bst(node.right, node.data, mx, RIGHT) == False:
+        return False # fail out early
+    else:
+        return True
