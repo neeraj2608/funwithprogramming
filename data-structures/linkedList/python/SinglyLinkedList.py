@@ -34,6 +34,16 @@ class SinglyLinkedList:
 
         self.head.setNext(prev)
 
+    def recursiveReverse(self):
+        self.recRev(None, self.head)
+
+    def recRev(self, prev, curr):
+        if(curr == None):
+            self.head = prev;
+        else:
+            self.recRev(curr, curr.getNext())
+            curr.setNext(prev)
+
 class Node:
     def __init__(self, data=None, next=None):
         self.data = data

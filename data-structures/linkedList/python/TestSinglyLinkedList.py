@@ -46,5 +46,24 @@ class TestSinglyLinkedList(TestCase):
         self.assertTrue(self.cut.delete() == 4)
         self.assertTrue(self.cut.delete() == None)
 
+    def test_recursive_reverse(self):
+        # list with single element
+        self.cut.insert(s.Node(1))
+        self.cut.recursiveReverse()
+        self.assertTrue(self.cut.delete() == 1)
+
+        # list with multiple elements
+        self.cut.insert(s.Node(1))
+        self.cut.insert(s.Node(2))
+        self.cut.insert(s.Node(3))
+        self.cut.insert(s.Node(4))
+        self.cut.recursiveReverse()
+        self.assertTrue(self.cut.count == 4)
+        self.assertTrue(self.cut.delete() == 1)
+        self.assertTrue(self.cut.delete() == 2)
+        self.assertTrue(self.cut.delete() == 3)
+        self.assertTrue(self.cut.delete() == 4)
+        self.assertTrue(self.cut.delete() == None)
+
 if __name__ == '__main__':
     main()
