@@ -65,5 +65,25 @@ class TestSinglyLinkedList(TestCase):
         self.assertTrue(self.cut.delete() == 4)
         self.assertTrue(self.cut.delete() == None)
 
+    def test_is_cyclic(self):
+        self.assertFalse(self.cut.isCyclic())
+
+        self.cut.insert(s.Node(1))
+        self.cut.insert(s.Node(2))
+        self.cut.insert(s.Node(3))
+        self.cut.insert(s.Node(4))
+        self.cut.insert(s.Node(5))
+        self.assertFalse(self.cut.isCyclic())
+
+        node3 = s.Node(3)
+        node5 = s.Node(5)
+        self.cut.insert(s.Node(1))
+        self.cut.insert(s.Node(2))
+        self.cut.insert(node3)
+        self.cut.insert(s.Node(4))
+        self.cut.insert(node5)
+        node3.setNext(node5)
+        self.assertTrue(self.cut.isCyclic())
+
 if __name__ == '__main__':
     main()

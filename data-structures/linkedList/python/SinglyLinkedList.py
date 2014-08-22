@@ -25,6 +25,7 @@ class SinglyLinkedList:
         return not self.count
 
     def reverse(self):
+        ''' Reverse the list '''
         prev = None
         while(self.head.getNext() != None):
             temp = self.head.getNext()
@@ -35,14 +36,30 @@ class SinglyLinkedList:
         self.head.setNext(prev)
 
     def recursiveReverse(self):
+        ''' Reverse the list using recursion '''
         self.recRev(None, self.head)
 
     def recRev(self, prev, curr):
+        ''' helper for recursiveReverse '''
         if(curr == None):
             self.head = prev;
         else:
             self.recRev(curr, curr.getNext())
             curr.setNext(prev)
+
+    def isCyclic(self):
+        self.slow = self.head
+
+        if(self.head == None or self.head.getNext() == None):
+            return False
+        self.fast = self.head.getNext().getNext()
+
+        while(self.fast and self.fast.getNext()):
+            if(self.fast == self.slow):
+                return True
+            self.slow = self.slow.getNext()
+            self.fast = self.fast.getNext().getNext()
+        return False
 
 class Node:
     def __init__(self, data=None, next=None):
