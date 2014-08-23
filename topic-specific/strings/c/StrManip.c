@@ -1,10 +1,26 @@
 #include <stdio.h> //for printf
 
+// Calculate the size of a struct without using sizeof
+struct Example{
+    int x; //4 bytes
+    float y; //4 bytes
+    double z; //8 bytes
+    char foo; //1 byte
+};
+
+// structs get padded so they are byte-aligned
+// Example has size 4 + 4 + 8 + 1 = 17 padded to 20
+size_t structSize(){ //size_t is unsigned
+    struct Example arr[0]; //need to say struct here too coz Example is not typedef'ed
+    return (char*)&arr[1] - (char*)&arr[0]; //going 1 past the end for address computation is legal
+}
+
 // Reverse position of words in a string in-place.
 // Words are separated by spaces and may include punctuation as part
 // of the word.
 // Example: "Hello world, it's a beautiful day!" ->
 //          "day! beautiful a it's world, Hello"
+// O(n)
 void reverseWordsInPlace(char* str){
     reverseWords_(str,0,strlen(str)-1);
     int index = 0;
@@ -53,5 +69,7 @@ int main(){
     char strwhitespace[] = " hello there";
     removeWhitespaceInPlace(strwhitespace);
     printf("%s\n",strwhitespace);
+
+    printf("%d\n",structSize());
 }
 
