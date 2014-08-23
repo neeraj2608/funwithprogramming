@@ -81,6 +81,37 @@ class Node:
     def __str__(self):
         return str(self.data)
 
+def sublistSplit(inputList):
+    slow = inputList.head
+    count = 1
+
+    # corner case of empty list
+    if(inputList.head == None):
+        return None, None
+
+    # corner case of only one element
+    if(inputList.head.getNext() == None):
+        return inputList, None
+
+    fast = inputList.head.getNext().getNext()
+
+    # run to the end of the list
+    while(fast):
+        count = count + 1
+        slow = slow.getNext()
+        if not fast.getNext():
+            break
+        fast = fast.getNext().getNext()
+
+    secondList = SinglyLinkedList()
+    secondList.head = slow.getNext()
+    secondList.count = inputList.count - count
+
+    inputList.count = count
+    slow.setNext(None)
+
+    return inputList, secondList
+
 # errors:
 # 1. Not using self. in many places after refactoring
 # 2. Not paying attention to the algorithm:

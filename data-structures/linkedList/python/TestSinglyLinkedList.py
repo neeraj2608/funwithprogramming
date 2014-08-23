@@ -85,5 +85,35 @@ class TestSinglyLinkedList(TestCase):
         node3.setNext(node5)
         self.assertTrue(self.cut.isCyclic())
 
+    def test_sublist_split(self):
+        # even-length list
+        self.cut.insert(s.Node(1))
+        self.cut.insert(s.Node(2))
+        self.cut.insert(s.Node(3))
+        self.cut.insert(s.Node(4))
+        first, second = s.sublistSplit(self.cut)
+        self.assertTrue(first.count == 2)
+        self.assertTrue(first.delete() == 4)
+        self.assertTrue(first.delete() == 3)
+        self.assertTrue(second.count == 2)
+        self.assertTrue(second.delete() == 2)
+        self.assertTrue(second.delete() == 1)
+
+        # odd-length list
+        # self.cut is the same as first above, which was emptied by the delete()
+        self.cut.insert(s.Node(1))
+        self.cut.insert(s.Node(2))
+        self.cut.insert(s.Node(3))
+        self.cut.insert(s.Node(4))
+        self.cut.insert(s.Node(5))
+        first, second = s.sublistSplit(self.cut)
+        self.assertTrue(first.count == 3)
+        self.assertTrue(first.delete() == 5)
+        self.assertTrue(first.delete() == 4)
+        self.assertTrue(first.delete() == 3)
+        self.assertTrue(second.count == 2)
+        self.assertTrue(second.delete() == 2)
+        self.assertTrue(second.delete() == 1)
+
 if __name__ == '__main__':
     main()
