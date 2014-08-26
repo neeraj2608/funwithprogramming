@@ -112,6 +112,28 @@ def sublistSplit(inputList):
 
     return inputList, secondList
 
+def insert_into_cyclic_sorted_list_node(node, val):
+    if(node == None):
+        node = Node(val)
+        node.setNext(node)
+        return node
+
+    left = node
+    right = node.getNext()
+    while(True):
+        if ((left.getData() <= val and val < right.getData()) or
+            (left.getData() > right.getData() and
+             (val < left.getData() or val > right.getData()))):
+            return insert_node(val, left, right)
+        left = left.getNext()
+        right = right.getNext()
+
+def insert_node(val, left, right):
+    newNode = Node(val)
+    left.setNext(newNode)
+    newNode.setNext(right)
+    return newNode
+
 # errors:
 # 1. Not using self. in many places after refactoring
 # 2. Not paying attention to the algorithm:
