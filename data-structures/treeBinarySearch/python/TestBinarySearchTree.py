@@ -48,6 +48,15 @@ class TestBinarySearchTree(TestCase):
         self.class_under_test.delete(3)
         self.assertTrue(self.class_under_test.isEmpty())
 
+    def test_to_sorted_doubly_linked_list(self):
+        self.class_under_test.insert(1)
+        self.class_under_test.insert(3)
+        self.class_under_test.insert(4)
+        self.class_under_test.insert(2)
+        result = b.to_sorted_doubly_linked_list(self.class_under_test)
+        self.assertTrue(result.head.data == 1)
+        self.assertTrue(result.head.prev.data == 4)
+
 if __name__ == '__main__':
     main()
 

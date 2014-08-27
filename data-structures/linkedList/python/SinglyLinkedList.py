@@ -1,24 +1,38 @@
 class SinglyLinkedList:
     def __init__(self):
         self.head = None
+        self.tail = None
         self.count = 0
 
     def insert(self, node):
+        ''' insert at head '''
         if(self.isEmpty()):
-            self.head = node;
+            self.head = node
+            self.tail = node
         else:
             node.setNext(self.head)
             self.head = node
         self.count = self.count + 1
 
+    def insertAtTail(self, node):
+        ''' insert at tail '''
+        if self.isEmpty():
+            self.head = node
+            self.tail = node
+        else:
+            self.tail.next = node
+            self.tail = node
+        self.count = self.count + 1
+
     def delete(self):
-        ''' Returns data in the node that was deleted '''
+        ''' Delete from head. Returns data in the node that was deleted '''
         if self.isEmpty():
             return None
         else:
             self.count = self.count - 1
             data = self.head.getData()
             self.head = self.head.getNext()
+            if self.head == None: self.tail = None
             return data
 
     def isEmpty(self):
@@ -27,6 +41,8 @@ class SinglyLinkedList:
     def reverse(self):
         ''' Reverse the list '''
         prev = None
+        self.tail = self.head
+
         while(self.head.getNext() != None):
             temp = self.head.getNext()
             self.head.setNext(prev)
@@ -37,6 +53,7 @@ class SinglyLinkedList:
 
     def recursiveReverse(self):
         ''' Reverse the list using recursion '''
+        self.tail = self.head
         self.recRev(None, self.head)
 
     def recRev(self, prev, curr):
@@ -65,6 +82,7 @@ class Node:
     def __init__(self, data=None, next=None):
         self.data = data
         self.next = next
+        self.prev = None
 
     def getNext(self):
         return self.next

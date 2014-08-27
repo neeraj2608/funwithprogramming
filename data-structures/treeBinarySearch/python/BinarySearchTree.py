@@ -1,3 +1,5 @@
+import SinglyLinkedList as s
+
 LEFT = 0
 RIGHT = 1
 
@@ -86,4 +88,20 @@ class Node:
         self.data = data
         self.left = None
         self.right = None
+
+def to_sorted_doubly_linked_list(bst):
+    l = s.SinglyLinkedList()
+    last = convert_to_dll(l, bst.root)
+    l.head.prev = last
+    last.next = l.head
+    return l
+
+def convert_to_dll(l, node, prev=None):
+    if node==None: return prev
+    convert_to_dll(l, node.left, prev)
+    newNode = s.Node(node.data)
+    newNode.prev = prev
+    l.insertAtTail(newNode)
+    return convert_to_dll(l, node.right, newNode)
+
 
