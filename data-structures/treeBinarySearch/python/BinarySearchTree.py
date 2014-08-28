@@ -127,3 +127,40 @@ def _is_bst(node, mn, mx, dir):
         return False # fail out early
     else:
         return True
+
+def find_largest_bst(tree):
+    '''
+    finds the largest bst in a given tree. returns the size of that bst as well
+    as its root node.
+    '''
+    _, node, size = _find_largest_bst(tree.root)
+    return node, size
+
+def _find_largest_bst(currNode, bstRootNode=None, bstSize=0):
+    if currNode == None:
+        return True, None, 0
+
+    is_bst_l, node_l, size_l = _find_largest_bst(currNode.left)
+    is_bst_r, node_r, size_r = _find_largest_bst(currNode.right)
+
+    if is_bst_l and is_bst_r:
+        if currNode.left == None and currNode.right == None: # leaf
+            return True, currNode, 1
+        if currNode.left == None and currNode.right != None: # check BST property
+            if currNode.data < currNode.right.data:
+                return True, currNode, size_r + 1
+            else:
+                return False, currNode.right, size_r
+        if currNode.left != None and currNode.right == None: # check BST property
+            if currNode.data >= currNode.left.data:
+                return True, currNode, size_l + 1
+            else:
+                return False, currNode.left, size_l
+        if currNode.data >= currNode.left.data and currNode.data < currNode.right.data: # check BST property
+            return True, currNode, size_l + size_r + 1
+    # this covers the following conditions:
+    # * both children were BSTs but this node is not
+    # * one child was NOT a BST
+    # * both children were NOT BSTs
+    if size_l > size_r: return False, node_l, size_l
+    else: return False, node_r, size_r
