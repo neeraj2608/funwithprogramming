@@ -142,6 +142,45 @@ int find_in_node(Node* node, int data){
         return find_in_node(node->right, data);
 }
 
+/*
+ * Returns 1 if node x is found in bst
+ * Returns 0 otherwise
+ * */
+int find_node(BST* bst, Node* x){
+    if(!(bst->root)) return 0;
+    else return find_node_(bst->root, x);
+}
+
+int find_node_(Node* node, Node* x){
+    if(node == NULL)
+        return 0;
+    else if(node == x)
+        return 1;
+    else if(node->data > x->data)
+        return find_node_(node->left, x);
+    else
+        return find_node_(node->right, x);
+}
+
+/*
+ * Find the lowest common ancestor of the two nodes x and y
+ * in bst. x and y may or may not actually be in bst
+ * */
+Node* find_lca_node(Node* node, Node* x, Node* y){
+    if(node == NULL) return NULL;
+    if(node == x || node == y || (node->data >= x->data && node->data < y->data)) return node;
+    else if(node->data > x->data && node->data > y->data) return find_lca_node(node->left, x, y);
+    else return find_lca_node(node->right, x, y);
+}
+
+Node* find_lca(BST* bst, Node* x, Node* y){
+    if(x == NULL || y == NULL) return NULL;
+    if(find_node(bst, x) == 0 || find_node(bst, y) == 0) return NULL;
+    else
+        if(x->data <= y->data) return find_lca_node(bst->root, x, y);
+        else return find_lca_node(bst->root, y, x);
+}
+
 int main(){
     BST* bst = createBST();
 
@@ -175,4 +214,29 @@ int main(){
 
     delete(bst, 3);
     assert(find(bst, 3) == 0);
+
+    // test LCA
+    Node* node1 = createNode(1);
+    Node* node2 = createNode(2);
+    Node* node3 = createNode(3);
+    Node* node4 = createNode(4);
+    Node* node5 = createNode(5);
+    Node* node6 = createNode(6);
+    Node* node7 = createNode(7);
+    Node* node8 = createNode(8);
+    node2->left = node1;
+    node2->right = node6;
+    node6->left = node4;
+    node4->left = node3;
+    node4->right = node5;
+    node6->right = node7;
+    node7->right = node8;
+    bst = createBST();
+    bst->root = node2;
+    assert(find_lca(bst, node3, node5)->data == 4);
+    assert(find_lca(bst, node5, node3)->data == 4);
+    assert(find_lca(bst, node5, node4)->data == 4);
+    assert(find_lca(bst, node5, node1)->data == 2);
+    assert(find_lca(bst, createNode(9), node1) == NULL);
+
 }
