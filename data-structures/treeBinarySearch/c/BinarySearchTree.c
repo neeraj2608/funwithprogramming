@@ -181,6 +181,70 @@ Node* find_lca(BST* bst, Node* x, Node* y){
         else return find_lca_node(bst->root, y, x);
 }
 
+Node* btree_ino_preo(int preo[], int inorderindices[], int inlo, int inhi, int prelo, int prehi){
+    if(inlo == inhi - 1) return createNode(preo[prelo]);
+    if(inlo >= inhi) return NULL;
+
+    Node* root = createNode(preo[prelo]);
+
+    int leftlower = inlo;
+    int leftupper = inorderindices[preo[prelo]];
+    int leftsize = leftupper - leftlower;
+    root->left = btree_ino_preo(preo, inorderindices, leftlower, leftupper, prelo+1, prelo+1+leftsize);
+
+    int rightlower = leftupper + 1;
+    int rightupper = inhi;
+    int rightsize = rightupper - rightlower;
+    root->right = btree_ino_preo(preo, inorderindices, rightlower, rightupper, prelo+1+leftsize, prehi);
+
+    return root;
+}
+
+/*
+ * Construct a binary tree from the given inorder and preorder traversal
+ * */
+Node* btree_from_inorder_preorder(int ino[], int preo[], int size){
+    int MAX_ELEMS = 256;
+    int inorderindices[MAX_ELEMS];
+    int i;
+    for(i=0;i<size;++i)
+        inorderindices[ino[i]] = i;
+
+    return btree_ino_preo(preo, inorderindices, 0, size, 0, size);
+}
+
+Node* btree_ino_posto(int posto[], int inorderindices[], int inlo, int inhi, int prelo, int prehi){
+    if(inlo == inhi - 1) return createNode(posto[prehi-1]);
+    if(inlo >= inhi) return NULL;
+
+    Node* root = createNode(posto[prehi-1]);
+
+    int leftlower = inlo;
+    int leftupper = inorderindices[posto[prelo]];
+    int leftsize = leftupper - leftlower;
+    root->left = btree_ino_posto(posto, inorderindices, leftlower, leftupper, prelo, prelo+leftsize);
+
+    int rightlower = leftupper + 1;
+    int rightupper = inhi;
+    int rightsize = rightupper - rightlower;
+    root->right = btree_ino_posto(posto, inorderindices, rightlower, rightupper, prelo+leftsize, prehi-1);
+
+    return root;
+}
+
+/*
+ * Construct a binary tree from the given inorder and postorder traversal
+ * */
+Node* btree_from_inorder_postorder(int ino[], int posto[], int size){
+    int MAX_ELEMS = 256;
+    int inorderindices[MAX_ELEMS];
+    int i;
+    for(i=0;i<size;++i)
+        inorderindices[ino[i]] = i;
+
+    return btree_ino_posto(posto, inorderindices, 0, size, 0, size);
+}
+
 int main(){
     BST* bst = createBST();
 
@@ -238,5 +302,34 @@ int main(){
     assert(find_lca(bst, node5, node4)->data == 4);
     assert(find_lca(bst, node5, node1)->data == 2);
     assert(find_lca(bst, createNode(9), node1) == NULL);
+
+    // test binary tree from inorder and preorder
+    // this should create a tree that looks like:
+    //          5
+    //       7     9
+    //     6    11  15
+    int inorder[] = {6, 7, 5, 11, 9, 15};
+    int preorder[] = {5, 7, 6, 9, 11, 15};
+    Node* root = btree_from_inorder_preorder(inorder, preorder, 6);
+    assert(root->data == 5);
+    assert(root->left->data == 7);
+    assert(root->left->left->data == 6);
+    assert(root->right->data == 9);
+    assert(root->right->left->data == 11);
+    assert(root->right->right->data == 15);
+
+    // test binary tree from inorder and postorder
+    // this should create a tree that looks like:
+    //          5
+    //       7     9
+    //     6    11  15
+    int postorder[] = {5, 7, 11, 15, 9, 5};
+    root = btree_from_inorder_postorder(inorder, postorder, 6);
+    assert(root->data == 5);
+    assert(root->left->data == 7);
+    assert(root->left->left->data == 6);
+    assert(root->right->data == 9);
+    assert(root->right->left->data == 11);
+    assert(root->right->right->data == 15);
 
 }
