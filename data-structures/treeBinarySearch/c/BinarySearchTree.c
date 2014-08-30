@@ -69,22 +69,22 @@ void delete(BST* bst, int data){
         if(x->left == NULL && x->right == NULL){ // x was a leaf
             if(x == bst->root) bst->root = NULL;
             else
-                if(parent->left == x) parent->left == NULL;
-                else parent->right == NULL;
+                if(parent->left == x) parent->left = NULL;
+                else parent->right = NULL;
             free(x);
         }
         else if(x->left != NULL && x -> right == NULL){ // x had only one child
             if(x == bst->root) bst->root = x->left;
             else
-                if(parent->left == x) parent->left == x->left;
-                else parent->right == x->left;
+                if(parent->left == x) parent->left = x->left;
+                else parent->right = x->left;
             free(x);
         }
         else if(x->left == NULL && x -> right != NULL){ // x had only one child
             if(x == bst->root) bst->root = x->right;
             else
-                if(parent->left == x) parent->left == x->right;
-                else parent->right == x->right;
+                if(parent->left == x) parent->left = x->right;
+                else parent->right = x->right;
             free(x);
         }
         else{ // x had two children
