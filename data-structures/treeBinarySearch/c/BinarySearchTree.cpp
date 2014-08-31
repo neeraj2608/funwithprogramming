@@ -153,6 +153,19 @@ Node* find_lca(BST* bst, Node* x, Node* y){
         else return find_lca_node(bst->root, y, x);
 }
 
+/*
+ * Construct a binary tree from the given inorder and preorder traversal
+ * */
+Node* btree_from_inorder_preorder(int ino[], int preo[], int size){
+    int MAX_ELEMS = 256;
+    int inorderindices[MAX_ELEMS];
+    int i;
+    for(i=0;i<size;++i)
+        inorderindices[ino[i]] = i;
+
+    return btree_ino_preo(preo, inorderindices, 0, size, 0, size);
+}
+
 Node* btree_ino_preo(int preo[], int inorderindices[], int inlo, int inhi, int prelo, int prehi){
     if(inlo == inhi - 1) return new Node(preo[prelo]);
     if(inlo >= inhi) return NULL;
@@ -173,16 +186,16 @@ Node* btree_ino_preo(int preo[], int inorderindices[], int inlo, int inhi, int p
 }
 
 /*
- * Construct a binary tree from the given inorder and preorder traversal
+ * Construct a binary tree from the given inorder and postorder traversal
  * */
-Node* btree_from_inorder_preorder(int ino[], int preo[], int size){
+Node* btree_from_inorder_postorder(int ino[], int posto[], int size){
     int MAX_ELEMS = 256;
     int inorderindices[MAX_ELEMS];
     int i;
     for(i=0;i<size;++i)
         inorderindices[ino[i]] = i;
 
-    return btree_ino_preo(preo, inorderindices, 0, size, 0, size);
+    return btree_ino_posto(posto, inorderindices, 0, size, 0, size);
 }
 
 Node* btree_ino_posto(int posto[], int inorderindices[], int inlo, int inhi, int prelo, int prehi){
@@ -202,19 +215,6 @@ Node* btree_ino_posto(int posto[], int inorderindices[], int inlo, int inhi, int
     root->right = btree_ino_posto(posto, inorderindices, rightlower, rightupper, prelo+leftsize, prehi-1);
 
     return root;
-}
-
-/*
- * Construct a binary tree from the given inorder and postorder traversal
- * */
-Node* btree_from_inorder_postorder(int ino[], int posto[], int size){
-    int MAX_ELEMS = 256;
-    int inorderindices[MAX_ELEMS];
-    int i;
-    for(i=0;i<size;++i)
-        inorderindices[ino[i]] = i;
-
-    return btree_ino_posto(posto, inorderindices, 0, size, 0, size);
 }
 
 int main(){
