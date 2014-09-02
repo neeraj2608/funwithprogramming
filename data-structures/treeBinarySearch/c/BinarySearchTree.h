@@ -6,7 +6,7 @@ class Node{
         struct Node* left;
         struct Node* right;
         int data;
-        Node(int data): data(data) {};
+        Node(int data);
 };
 
 class BST{
@@ -53,3 +53,5 @@ Node* btree_ino_preo(int preo[], int inorderindices[], int inlo, int inhi, int p
  * */
 Node* btree_from_inorder_postorder(int ino[], int posto[], int size);
 Node* btree_ino_posto(int posto[], int inorderindices[], int inlo, int inhi, int prelo, int prehi);
+
+void level_order_print(BST* bst);

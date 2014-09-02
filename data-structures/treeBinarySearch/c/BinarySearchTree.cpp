@@ -2,6 +2,13 @@
 #include <cstdlib>
 #include <assert.h>
 #include "BinarySearchTree.h"
+#include <queue>
+
+Node::Node(int data){
+    this->data = data;
+    this->left = NULL;
+    this->right = NULL;
+}
 
 void BST::insert_into_node(Node* node, int data){
     if(node == NULL) return;
@@ -217,6 +224,34 @@ Node* btree_ino_posto(int posto[], int inorderindices[], int inlo, int inhi, int
     return root;
 }
 
+void level_order_print(BST* bst){
+    if(bst->root == NULL) return;
+    queue<Node*> q;
+    int numNodesThisLevel = 0;
+    int numNodesLowerLevel = 0;
+    q.push(bst->root);
+    numNodesThisLevel++;
+    while(!q.empty()){
+        Node* n = q.front();
+        cout << n->data << " ";
+        q.pop();
+        numNodesThisLevel--;
+        if(n->left != NULL){
+            q.push(n->left);
+            numNodesLowerLevel++;
+        }
+        if(n->right != NULL){
+            q.push(n->right);
+            numNodesLowerLevel++;
+        }
+        if(numNodesThisLevel == 0){
+            cout << endl;
+            numNodesThisLevel = numNodesLowerLevel;
+            numNodesLowerLevel = 0;
+        }
+    }
+}
+
 int main(){
     BST* bst = new BST();
 
@@ -253,6 +288,10 @@ int main(){
     assert(bst->find(3) == 0);
 
     // test LCA
+    //      2
+    //    1    6
+    //       4  7
+    //      3 5  8
     Node* node1 = new Node(1);
     Node* node2 = new Node(2);
     Node* node3 = new Node(3);
@@ -304,5 +343,7 @@ int main(){
     assert(root->right->data == 9);
     assert(root->right->left->data == 11);
     assert(root->right->right->data == 15);
+
+    level_order_print(bst);
 
 }
